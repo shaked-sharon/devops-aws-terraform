@@ -1,0 +1,12 @@
+{
+  "instances": [
+    {
+      "name": "skd",
+      "vcpu": 1,
+      "ram_gb": 3,
+      "disk_gb": 8,
+      "ssh_port": 22,
+      "enable_backup": false
+    }
+  ]
+}

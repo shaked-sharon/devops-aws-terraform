@@ -1,51 +1,44 @@
 # Uses Pydantic for data validation inherited from BaseModel
-# Uses schema for simulation > virtual machines
-# Each virtual machine will have unique name by user, OS, cpu core, & ram GB
+# Will use also Pydantic model for local machine records
+# Each vm will have unique name by user, OS, cpu core, & ram GB
 
 from pydantic import BaseModel, field_validator
 
-ALLOWED_OSES = {"ubuntu", "centos", "windows", "macos"}
-
 class Machine(BaseModel):
     name: str
-    os: str
-    cpu: int
-    ram: int
+    os: str      # Valid OS Types: ubuntu, centos, windows, macos
+    cpu: int     # 2-64
+    ram: int     # 1-128
 
-    @field_validator('name')
-    def validate_name(cls, v):
-        if not v or not v.strip():
-            raise ValueError("Machine name cannot be empty.")
+    @field_validator("name")
+    @classmethod
+    def name_nonempty(cls, v: str) -> str:
+        v = (v or "").strip()
+        if not v:
+            raise ValueError("Boo! Name cannot be empty!!")
+        if len(v) > 40:
+            raise ValueError("Name too long!! Use a nickname if you have to... stick to a maximum of 40 letters please!")
         return v
 
-    @field_validator('os')
-    def validate_os(cls, v):
-        if v.lower() not in ALLOWED_OSES:
-            raise ValueError(f"Invalid OS: {v}. Allowed values are: Ubuntu, CentOS, Windows, MacOS.")
-        return v
+    @field_validator("os")
+    @classmethod
+    def os_supported(cls, v: str) -> str:
+        allowed = {"ubuntu", "centos", "windows", "macos"}
+        val = (v or "").strip().lower()
+        if val not in allowed:
+            raise ValueError("Boo! Unsupported OS (Only Use: ubuntu, centos, windows, macos).")
+        return val  # store lowercase
 
-    @field_validator('cpu')
-    def validate_cpu(cls, v):
+    @field_validator("cpu")
+    @classmethod
+    def cpu_range(cls, v: int) -> int:
         if not (2 <= v <= 64):
-            raise ValueError("CPU cores must be between 2 and 64.")
+            raise ValueError("Boo! Error!! CPU amount must be from 2-64!!")
         return v
 
-    @field_validator('ram')
-    def validate_ram(cls, v):
+    @field_validator("ram")
+    @classmethod
+    def ram_range(cls, v: int) -> int:
         if not (1 <= v <= 128):
-            raise ValueError("RAM must be between 1 and 128 GB.")
+            raise ValueError("Boo! Error!! RAM must be from 1-128!!")
         return v
-
-    def to_dict(self):
-        return self.model_dump()
-
-    def provision(self):
-        print(f"Creating virtual machine: {self.name}")
-        print(f"Operating System: {self.os}")
-        print(f"CPU: {self.cpu} cores")
-        print(f"RAM: {self.ram} GB")
-        print(f"Virtual Machine {self.name} has successfully been created! Hooray!")
-        # Use the main logger instead of separate logging
-        from src.logger import logger
-        logger.info(f"Provisioned virtual machine: {self.name} - {self.os}, {self.cpu} CPU, {self.ram} GB RAM")
-        return True
