@@ -7,6 +7,15 @@
       "disk_gb": 8,
       "ssh_port": 22,
       "enable_backup": false
+    },
+    {
+      "name": "Sharon Test",
+      "os": "macos",
+      "vcpu": 3,
+      "ram_gb": 3,
+      "disk_gb": 10,
+      "ssh_port": 22,
+      "enable_backup": false
     }
   ]
 }
