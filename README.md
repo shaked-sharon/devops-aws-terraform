@@ -28,7 +28,7 @@ and adding a **Python script** that lists live EC2 instances with their details.
    export AWS_SECRET_ACCESS_KEY="YOUR_SECRET"
    export AWS_DEFAULT_REGION="eu-central-1"
    ```
-2. Build your EC2 instance:
+2. Build EC2 instance:
    ```bash
    cd AWS/terraform
    terraform init
@@ -43,12 +43,12 @@ and adding a **Python script** that lists live EC2 instances with their details.
    chmod 600 ~/.ssh/devops-key
    ssh -i ~/.ssh/devops-key ubuntu@<PUBLIC_IP>
    ```
-5. Run the Python EC2 lister:
+5. Run Python EC2 List:
    ```bash
    source .venv/bin/activate
    python AWS/python/list_ec2.py
    ```
-6. (Optional) Use the app menu:
+6. Use app menu (to view input/output menu--optional):
    ```bash
    python cloud_manager.py
    ```
@@ -56,7 +56,7 @@ and adding a **Python script** that lists live EC2 instances with their details.
    - **2)** List local machines
    - **3)** AWS: List EC2 instances (real AWS data)
    - **4)** Exit
-7. Clean up resources (to avoid charges):
+7. Clean up resources (avoid unneccessary charges):
    ```bash
    cd AWS/terraform
    terraform destroy -auto-approve
