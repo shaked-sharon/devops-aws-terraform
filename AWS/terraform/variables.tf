@@ -4,6 +4,7 @@ variable "aws_region" {
 }
 
 variable "public_key_path" {
-  description = "Path to your public SSH key (.pub)"
+  description = "Path to your *public* SSH key"
+  type        = string
   default     = "~/.ssh/devops-key.pub"
 }
