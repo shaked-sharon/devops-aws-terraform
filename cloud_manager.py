@@ -29,7 +29,7 @@ def log(msg: str) -> None:
     from datetime import datetime, timezone
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     with open(LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(f"{ts} UTC | {msg}\n")
+        f.write(f"{ts} | {msg}\n")
 
 #config help
 def ensure_config() -> None:

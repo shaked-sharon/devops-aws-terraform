@@ -1,68 +1,18 @@
 {
   "instances": [
     {
-      "name": "skd",
-      "vcpu": 1,
-      "ram_gb": 3,
-      "disk_gb": 8,
-      "ssh_port": 22,
-      "enable_backup": false
-    },
-    {
-      "name": "Sharon Test",
-      "os": "macos",
-      "vcpu": 3,
-      "ram_gb": 3,
-      "disk_gb": 10,
-      "ssh_port": 22,
-      "enable_backup": false
-    },
-    {
-      "name": "sharon test 2",
-      "os": "ubuntu",
-      "vcpu": 3,
-      "ram_gb": 4,
-      "disk_gb": 28,
-      "ssh_port": 22,
-      "enable_backup": false
-    },
-    {
-      "name": "sharon test 3",
+      "name": "test new code sharon 1",
       "cpu": 8,
-      "ram_gb": 2,
+      "ram_gb": 16,
       "disk_gb": 24,
       "ssh_port": 22,
       "enable_backup": true
     },
     {
-      "name": "test 4",
-      "cpu": 3,
-      "ram_gb": 8,
-      "disk_gb": 24,
-      "ssh_port": 22,
-      "enable_backup": true
-    },
-    {
-      "name": "test 8",
+      "name": "sharon new test again 2",
       "cpu": 8,
-      "ram_gb": 4,
-      "disk_gb": 26,
-      "ssh_port": 22,
-      "enable_backup": true
-    },
-    {
-      "name": "test 10",
-      "cpu": 2,
-      "ram_gb": 3,
+      "ram_gb": 16,
       "disk_gb": 24,
-      "ssh_port": 22,
-      "enable_backup": true
-    },
-    {
-      "name": "sharon test 22",
-      "cpu": 2,
-      "ram_gb": 2,
-      "disk_gb": 20,
       "ssh_port": 22,
       "enable_backup": true
     }

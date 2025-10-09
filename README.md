@@ -44,6 +44,18 @@ and adding a **Python script** that lists live EC2 instances with their details.
    ssh -i ~/.ssh/devops-key ubuntu@<PUBLIC_IP>
    ```
 5. Run Python EC2 List:
+   - NOTE: If `.venv` doesn’t exist yet, create it first:
+   > ```bash
+   > python3 -m venv .venv
+   > source .venv/bin/activate
+   > pip install -r requirements.txt
+   > ```
+   > Then run the script:
+   > ```bash
+   > source .venv/bin/activate
+   > python AWS/python/list_ec2.py
+   
+   - Then move to the following steps:
    ```bash
    source .venv/bin/activate
    python AWS/python/list_ec2.py
@@ -72,23 +84,24 @@ AWS/
 cloud_manager.py          # Main menu: Local + AWS integration
 configs/instances.json    # Local records (auto-created)
 logs/app.log              # Log file (auto-created)
-src/machine.py            # Validation model for local machines
 requirements.txt          # Python dependencies
 ```
 
 ---
 
 ## Project Notes
-- This AWS module continues my earlier **local VM simulator** project (linked above).  
-  The local mode remains available inside `cloud_manager.py` to demonstrate input validation  
-  and configuration handling, but the actual infrastructure is now deployed on AWS using Terraform.
+- This AWS module continues my earlier **local VM simulator** project (https://github.com/shaked-sharon/devops-automation.git)
+  The local mode (created in first project) remains available inside `cloud_manager.py` to demonstrate input validation  
+  & configuration -- actual infrastructure is deployed on AWS via Terraform
 - The EC2 **OS** is fixed to **Ubuntu** (Terraform AMI).  
-- The **SSH port** is fixed to **22**, and **TCP 5001** is open for testing a future app.  
+- The **SSH port** is fixed to **22**, and **TCP 5001** is open for testing future app.
 - **Backups** default to enabled in local records for simplicity.  
-- The `SecurityGroups` column in the EC2 list displays inbound TCP ports for each instance.  
-- Terraform’s `public_ip` output matches the same value shown in the EC2 listing table.
+- The `SecurityGroups` column in the EC2 list displays inbound TCP ports for each instance
+- Terraform’s `public_ip` output matches the same value shown in the EC2 listing table
 - SSH (22) and TCP 5001 are open to 0.0.0.0/0 for grading purposes only.
-- In production, restrict these to specific CIDR ranges or a bastion host.
+      - In production, restrict these to specific CIDR ranges or a bastion host.
+- Assumes a default VPC exists in region `eu-central-1`
+      - If your account has no default VPC, create one / update Terraform to use specific subnet ID
 
 ---
 
