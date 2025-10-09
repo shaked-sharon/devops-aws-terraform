@@ -1,17 +1,33 @@
-# Python
-__pycache__/
-*.pyc
-
 # Terraform
-*.tfstate
-*.tfstate.backup
 .terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
 terraform.tfvars
 
-# macOS + VS Code
-.DS_Store
-.vscode/
+# Python
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
 
-# Keys and secrets
+# Keys & Secrets
 *.pem
 *.key
+*.p12
+*.csr
+*.crt
+*.cer
+.aws/
+*.secrets
+*.env
+
+# macOS
+.DS_Store
+.vscode/
+.idea/
