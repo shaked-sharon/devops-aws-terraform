@@ -34,7 +34,7 @@ and adding a **Python script** that lists live EC2 instances with their details.
    terraform init
    terraform apply -auto-approve
    ```
-3. Note the **public IP** printed at the end:
+3. Note: **public IP** printed at the end:
    ```bash
    terraform output public_ip
    ```
