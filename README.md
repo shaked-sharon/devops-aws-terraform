@@ -87,6 +87,8 @@ requirements.txt          # Python dependencies
 - **Backups** default to enabled in local records for simplicity.  
 - The `SecurityGroups` column in the EC2 list displays inbound TCP ports for each instance.  
 - Terraform’s `public_ip` output matches the same value shown in the EC2 listing table.
+- SSH (22) and TCP 5001 are open to 0.0.0.0/0 for grading purposes only.
+- In production, restrict these to specific CIDR ranges or a bastion host.
 
 ---
 
