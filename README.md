@@ -21,7 +21,7 @@ and adding a **Python script** that lists live EC2 instances with their details.
 
 ---
 
-## Quick start (high level)
+## Quick Start Guide
 1. Set AWS credentials in the terminal:
    ```bash
    export AWS_ACCESS_KEY_ID="YOUR_KEY"
