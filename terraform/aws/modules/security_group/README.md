@@ -1,15 +1,3 @@
-# Security Group module
-
-### Usage
-```hcl
-module "security_group" {
-  source        = "../../modules/security_group"
-  vpc_id        = data.aws_vpc.default.id
-  name_prefix   = "devops-sg"
-  description   = "Allow SSH (22) & app (5001)"
-  allowed_cidrs = ["0.0.0.0/0"] # demo only
-}
-
 ## Requirements
 
 No requirements.
