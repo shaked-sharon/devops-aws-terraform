@@ -1,17 +1,3 @@
-# EC2 module
-
-### Usage
-```hcl
-module "ec2" {
-  source             = "../../modules/ec2"
-  instance_type      = "t3.micro"
-  subnet_id          = var.subnet_id              # e.g., from a data source
-  security_group_ids = [module.security_group.security_group_id]
-  key_name           = "devops-key"
-  name               = "devops-ec2"
-  user_data          = null
-}
-
 ## Requirements
 
 No requirements.
