@@ -1,16 +1,16 @@
 variable "vpc_id" {
-  description = "ID of VPC where security group will be generated"
+  description = "ID of VPC where Security Group will be created"
   type        = string
 }
 
 variable "name_prefix" {
-  description = "Prefix for security group name"
+  description = "Security Group Name"
   type        = string
   default     = "devops-sg"
 }
 
 variable "description" {
-  description = "Description of security group"
+  description = "Description for Security Group"
   type        = string
   default     = "Allow SSH (22) & app (5001)"
 }

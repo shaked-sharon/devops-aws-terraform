@@ -1,8 +1,331 @@
-2025-10-05 21:19:24,147 - INFO - DevOps Automation Program starting...
-2025-10-05 21:19:59,677 - ERROR - Failed to save configuration: [Errno 2] No such file or directory: 'configs/instances.json'
-2025-10-05 21:22:24,821 - INFO - DevOps Automation Program stopped
-2025-10-05 21:40:49,244 - INFO - DevOps Automation Program starting...
-2025-10-05 21:41:22,998 - INFO - Saved 1 virtual machine to instances.json
-2025-10-05 21:41:22,998 - INFO - Provisioned virtual machine: sharon - macos, 2 CPU, 1 GB RAM
-2025-10-05 21:41:31,071 - INFO - Installation script ran successfully for sharon
-2025-10-05 21:41:38,831 - INFO - DevOps Automation Program stopped
+===== Wed Oct 22 22:11:01 IDT 2025 | terraform init =====
+[0m[1mInitializing the backend...[0m
+[0m[1mInitializing modules...[0m
+[0m[1mInitializing provider plugins...[0m
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v5.100.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+===== Wed Oct 22 22:11:23 IDT 2025 | terraform plan =====
+[0m[1mmodule.ec2.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1maws_key_pair.this: Refreshing state... [id=devops-key][0m
+[0m[1mdata.aws_vpc.default: Reading...[0m[0m
+[0m[1mmodule.ec2.data.aws_ami.ubuntu: Read complete after 2s [id=ami-0c5ddb3560e768732][0m
+[0m[1mdata.aws_vpc.default: Read complete after 2s [id=vpc-05d24c31802806a66][0m
+[0m[1mdata.aws_subnets.default_vpc_subnets: Reading...[0m[0m
+[0m[1mmodule.security_group.aws_security_group.this: Refreshing state... [id=sg-0bd70c1ca1c714d11][0m
+[0m[1mdata.aws_subnets.default_vpc_subnets: Read complete after 1s [id=us-east-2][0m
+[0m[1mmodule.security_group.aws_security_group_rule.egress_all: Refreshing state... [id=sgrule-260579820][0m
+[0m[1mmodule.security_group.aws_security_group_rule.app_in: Refreshing state... [id=sgrule-932101508][0m
+[0m[1mmodule.security_group.aws_security_group_rule.ssh_in: Refreshing state... [id=sgrule-2152667884][0m
+[0m[1mmodule.ec2.aws_instance.this: Refreshing state... [id=i-0695db9456cad3cd9][0m
+
+[0m[1m[32mNo changes.[0m[1m Your infrastructure matches the configuration.[0m
+
+[0mTerraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+===== Wed Oct 22 22:11:59 IDT 2025 | terraform apply =====
+[0m[1mdata.aws_vpc.default: Reading...[0m[0m
+[0m[1mmodule.ec2.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1maws_key_pair.this: Refreshing state... [id=devops-key][0m
+[0m[1mmodule.ec2.data.aws_ami.ubuntu: Read complete after 1s [id=ami-0c5ddb3560e768732][0m
+[0m[1mdata.aws_vpc.default: Read complete after 2s [id=vpc-05d24c31802806a66][0m
+[0m[1mdata.aws_subnets.default_vpc_subnets: Reading...[0m[0m
+[0m[1mmodule.security_group.aws_security_group.this: Refreshing state... [id=sg-0bd70c1ca1c714d11][0m
+[0m[1mdata.aws_subnets.default_vpc_subnets: Read complete after 0s [id=us-east-2][0m
+[0m[1mmodule.security_group.aws_security_group_rule.egress_all: Refreshing state... [id=sgrule-260579820][0m
+[0m[1mmodule.security_group.aws_security_group_rule.app_in: Refreshing state... [id=sgrule-932101508][0m
+[0m[1mmodule.security_group.aws_security_group_rule.ssh_in: Refreshing state... [id=sgrule-2152667884][0m
+[0m[1mmodule.ec2.aws_instance.this: Refreshing state... [id=i-0695db9456cad3cd9][0m
+
+[0m[1m[32mNo changes.[0m[1m Your infrastructure matches the configuration.[0m
+
+[0mTerraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+[0m[1m[32m
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0minstance_id = "i-0695db9456cad3cd9"
+public_ip = "18.221.254.220"
+===== Wed Oct 22 22:12:52 IDT 2025 | terraform output =====
+instance_id = "i-0695db9456cad3cd9"
+public_ip = "18.221.254.220"
+===== Wed Oct 22 22:17:55 IDT 2025 | terraform destroy =====
+[0m[1maws_key_pair.this: Refreshing state... [id=devops-key][0m
+[0m[1mmodule.ec2.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mdata.aws_vpc.default: Reading...[0m[0m
+[0m[1mmodule.ec2.data.aws_ami.ubuntu: Read complete after 2s [id=ami-0c5ddb3560e768732][0m
+[0m[1mdata.aws_vpc.default: Read complete after 3s [id=vpc-05d24c31802806a66][0m
+[0m[1mdata.aws_subnets.default_vpc_subnets: Reading...[0m[0m
+[0m[1mmodule.security_group.aws_security_group.this: Refreshing state... [id=sg-0bd70c1ca1c714d11][0m
+[0m[1mmodule.security_group.aws_security_group_rule.ssh_in: Refreshing state... [id=sgrule-2152667884][0m
+[0m[1mmodule.security_group.aws_security_group_rule.egress_all: Refreshing state... [id=sgrule-260579820][0m
+[0m[1mmodule.security_group.aws_security_group_rule.app_in: Refreshing state... [id=sgrule-932101508][0m
+[0m[1mdata.aws_subnets.default_vpc_subnets: Read complete after 0s [id=us-east-2][0m
+[0m[1mmodule.ec2.aws_instance.this: Refreshing state... [id=i-0695db9456cad3cd9][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [31m-[0m destroy[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_key_pair.this[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_key_pair" "this" {
+      [31m-[0m[0m arn             = "arn:aws:ec2:us-east-2:185685335426:key-pair/devops-key" [90m-> null[0m[0m
+      [31m-[0m[0m fingerprint     = "3b:e7:c4:36:cb:84:c1:3b:a6:91:96:2b:35:f3:3b:2b" [90m-> null[0m[0m
+      [31m-[0m[0m id              = "devops-key" [90m-> null[0m[0m
+      [31m-[0m[0m key_name        = "devops-key" [90m-> null[0m[0m
+      [31m-[0m[0m key_pair_id     = "key-07f37a64f26eb8446" [90m-> null[0m[0m
+      [31m-[0m[0m key_type        = "rsa" [90m-> null[0m[0m
+      [31m-[0m[0m public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCd1KwL8HBYzIzf5hXzQB77AfnitXchVF7tXCPrfc4RYGM/FKU0irnQN2lP1jOOJU2mgTI2q82BOwRHavZE9a2CflC/T0RBYv7dsJ9xmp8JW8xORjb+ATFj7+mAKWA3yR7O+PayZMwBJ19OdbD7CgG1FxlHvLbgHSQyxONOomXrjholeWM26M6bEu/bXx65wfZKy0INBK9gwjoltNrilisA+sOKzAhTe4V8DL/xNJX+wsp2yku0fCOUySwd8nVG7dYGhGRn+K4jrYgqacadhx/+khp0Bzokt5v0AmC0p5UR+Cr+YUemds5+758tiP+hl3Lyo4bKYOJBeItRz6R0+FhDZD8PJ1RVOzbgbhBowHPx3hX5Ot1veH8IsjytPTdIwVH7NavhPIYyKwf+uUZwB+5Zzvb+Iz3bW0L/ElaAjMjth8HaValUoG7ZalquD/2pX2RADy6dalcl03rIwBYwlf1s2CktE41ooSxErt7gTW/VwRpgG2xHGnmyvQ73RXuanXlJhBz5u5yCyzXNnQMF+L7U4XT9Nq+qdKFMHKXTCOaLNEH5ZmotzAvNKlA+//fFI76a3aeXvs1+o9xU5pzUumm6wYFx0ciigc1ypGJGbIxaNGTJdgcKCDbg0lZJ4EFZzM1pUIpJr6zvKGD1Cdlam7W4WWgngi4hVUhmAZHWTIHEBw== sharonshaked@Sharons-Laptop.local" [90m-> null[0m[0m
+      [31m-[0m[0m tags            = {} [90m-> null[0m[0m
+      [31m-[0m[0m tags_all        = {
+          [31m-[0m[0m "env"   = "devops"
+          [31m-[0m[0m "owner" = "Sharon"
+        } [90m-> null[0m[0m
+        [90m# (1 unchanged attribute hidden)[0m[0m
+    }
+
+[1m  # module.ec2.aws_instance.this[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_instance" "this" {
+      [31m-[0m[0m ami                                  = "ami-0c5ddb3560e768732" [90m-> null[0m[0m
+      [31m-[0m[0m arn                                  = "arn:aws:ec2:us-east-2:185685335426:instance/i-0695db9456cad3cd9" [90m-> null[0m[0m
+      [31m-[0m[0m associate_public_ip_address          = true [90m-> null[0m[0m
+      [31m-[0m[0m availability_zone                    = "us-east-2b" [90m-> null[0m[0m
+      [31m-[0m[0m cpu_core_count                       = 1 [90m-> null[0m[0m
+      [31m-[0m[0m cpu_threads_per_core                 = 2 [90m-> null[0m[0m
+      [31m-[0m[0m disable_api_stop                     = false [90m-> null[0m[0m
+      [31m-[0m[0m disable_api_termination              = false [90m-> null[0m[0m
+      [31m-[0m[0m ebs_optimized                        = false [90m-> null[0m[0m
+      [31m-[0m[0m get_password_data                    = false [90m-> null[0m[0m
+      [31m-[0m[0m hibernation                          = false [90m-> null[0m[0m
+      [31m-[0m[0m id                                   = "i-0695db9456cad3cd9" [90m-> null[0m[0m
+      [31m-[0m[0m instance_initiated_shutdown_behavior = "stop" [90m-> null[0m[0m
+      [31m-[0m[0m instance_state                       = "running" [90m-> null[0m[0m
+      [31m-[0m[0m instance_type                        = "t3.micro" [90m-> null[0m[0m
+      [31m-[0m[0m ipv6_address_count                   = 0 [90m-> null[0m[0m
+      [31m-[0m[0m ipv6_addresses                       = [] [90m-> null[0m[0m
+      [31m-[0m[0m key_name                             = "devops-key" [90m-> null[0m[0m
+      [31m-[0m[0m monitoring                           = false [90m-> null[0m[0m
+      [31m-[0m[0m placement_partition_number           = 0 [90m-> null[0m[0m
+      [31m-[0m[0m primary_network_interface_id         = "eni-0bddaef24c2172061" [90m-> null[0m[0m
+      [31m-[0m[0m private_dns                          = "ip-172-31-24-55.us-east-2.compute.internal" [90m-> null[0m[0m
+      [31m-[0m[0m private_ip                           = "172.31.24.55" [90m-> null[0m[0m
+      [31m-[0m[0m public_dns                           = "ec2-18-221-254-220.us-east-2.compute.amazonaws.com" [90m-> null[0m[0m
+      [31m-[0m[0m public_ip                            = "18.221.254.220" [90m-> null[0m[0m
+      [31m-[0m[0m secondary_private_ips                = [] [90m-> null[0m[0m
+      [31m-[0m[0m security_groups                      = [
+          [31m-[0m[0m "devops-sg20251022172400247600000001",
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m source_dest_check                    = true [90m-> null[0m[0m
+      [31m-[0m[0m subnet_id                            = "subnet-0bacfb741981fa6d5" [90m-> null[0m[0m
+      [31m-[0m[0m tags                                 = {
+          [31m-[0m[0m "Name" = "devops-ec2"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all                             = {
+          [31m-[0m[0m "Name"  = "devops-ec2"
+          [31m-[0m[0m "env"   = "devops"
+          [31m-[0m[0m "owner" = "Sharon"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tenancy                              = "default" [90m-> null[0m[0m
+      [31m-[0m[0m user_data_replace_on_change          = false [90m-> null[0m[0m
+      [31m-[0m[0m vpc_security_group_ids               = [
+          [31m-[0m[0m "sg-0bd70c1ca1c714d11",
+        ] [90m-> null[0m[0m
+        [90m# (8 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m capacity_reservation_specification {
+          [31m-[0m[0m capacity_reservation_preference = "open" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m cpu_options {
+          [31m-[0m[0m core_count       = 1 [90m-> null[0m[0m
+          [31m-[0m[0m threads_per_core = 2 [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+
+      [31m-[0m[0m credit_specification {
+          [31m-[0m[0m cpu_credits = "unlimited" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m enclave_options {
+          [31m-[0m[0m enabled = false [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m maintenance_options {
+          [31m-[0m[0m auto_recovery = "default" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m metadata_options {
+          [31m-[0m[0m http_endpoint               = "enabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_protocol_ipv6          = "disabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_put_response_hop_limit = 1 [90m-> null[0m[0m
+          [31m-[0m[0m http_tokens                 = "optional" [90m-> null[0m[0m
+          [31m-[0m[0m instance_metadata_tags      = "disabled" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m private_dns_name_options {
+          [31m-[0m[0m enable_resource_name_dns_a_record    = false [90m-> null[0m[0m
+          [31m-[0m[0m enable_resource_name_dns_aaaa_record = false [90m-> null[0m[0m
+          [31m-[0m[0m hostname_type                        = "ip-name" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m root_block_device {
+          [31m-[0m[0m delete_on_termination = true [90m-> null[0m[0m
+          [31m-[0m[0m device_name           = "/dev/sda1" [90m-> null[0m[0m
+          [31m-[0m[0m encrypted             = false [90m-> null[0m[0m
+          [31m-[0m[0m iops                  = 3000 [90m-> null[0m[0m
+          [31m-[0m[0m tags                  = {} [90m-> null[0m[0m
+          [31m-[0m[0m tags_all              = {
+              [31m-[0m[0m "env"   = "devops"
+              [31m-[0m[0m "owner" = "Sharon"
+            } [90m-> null[0m[0m
+          [31m-[0m[0m throughput            = 125 [90m-> null[0m[0m
+          [31m-[0m[0m volume_id             = "vol-080bccb7b288bce57" [90m-> null[0m[0m
+          [31m-[0m[0m volume_size           = 20 [90m-> null[0m[0m
+          [31m-[0m[0m volume_type           = "gp3" [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+    }
+
+[1m  # module.security_group.aws_security_group.this[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group" "this" {
+      [31m-[0m[0m arn                    = "arn:aws:ec2:us-east-2:185685335426:security-group/sg-0bd70c1ca1c714d11" [90m-> null[0m[0m
+      [31m-[0m[0m description            = "Allow SSH (22) & app (5001)" [90m-> null[0m[0m
+      [31m-[0m[0m egress                 = [
+          [31m-[0m[0m {
+              [31m-[0m[0m cidr_blocks      = [
+                  [31m-[0m[0m "0.0.0.0/0",
+                ]
+              [31m-[0m[0m description      = "Allow all outbound"
+              [31m-[0m[0m from_port        = 0
+              [31m-[0m[0m ipv6_cidr_blocks = []
+              [31m-[0m[0m prefix_list_ids  = []
+              [31m-[0m[0m protocol         = "-1"
+              [31m-[0m[0m security_groups  = []
+              [31m-[0m[0m self             = false
+              [31m-[0m[0m to_port          = 0
+            },
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m id                     = "sg-0bd70c1ca1c714d11" [90m-> null[0m[0m
+      [31m-[0m[0m ingress                = [
+          [31m-[0m[0m {
+              [31m-[0m[0m cidr_blocks      = [
+                  [31m-[0m[0m "0.0.0.0/0",
+                ]
+              [31m-[0m[0m description      = "App port 5001"
+              [31m-[0m[0m from_port        = 5001
+              [31m-[0m[0m ipv6_cidr_blocks = []
+              [31m-[0m[0m prefix_list_ids  = []
+              [31m-[0m[0m protocol         = "tcp"
+              [31m-[0m[0m security_groups  = []
+              [31m-[0m[0m self             = false
+              [31m-[0m[0m to_port          = 5001
+            },
+          [31m-[0m[0m {
+              [31m-[0m[0m cidr_blocks      = [
+                  [31m-[0m[0m "0.0.0.0/0",
+                ]
+              [31m-[0m[0m description      = "SSH"
+              [31m-[0m[0m from_port        = 22
+              [31m-[0m[0m ipv6_cidr_blocks = []
+              [31m-[0m[0m prefix_list_ids  = []
+              [31m-[0m[0m protocol         = "tcp"
+              [31m-[0m[0m security_groups  = []
+              [31m-[0m[0m self             = false
+              [31m-[0m[0m to_port          = 22
+            },
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m name                   = "devops-sg20251022172400247600000001" [90m-> null[0m[0m
+      [31m-[0m[0m name_prefix            = "devops-sg" [90m-> null[0m[0m
+      [31m-[0m[0m owner_id               = "185685335426" [90m-> null[0m[0m
+      [31m-[0m[0m revoke_rules_on_delete = false [90m-> null[0m[0m
+      [31m-[0m[0m tags                   = {} [90m-> null[0m[0m
+      [31m-[0m[0m tags_all               = {
+          [31m-[0m[0m "env"   = "devops"
+          [31m-[0m[0m "owner" = "Sharon"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m vpc_id                 = "vpc-05d24c31802806a66" [90m-> null[0m[0m
+    }
+
+[1m  # module.security_group.aws_security_group_rule.app_in[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "app_in" {
+      [31m-[0m[0m cidr_blocks            = [
+          [31m-[0m[0m "0.0.0.0/0",
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m description            = "App port 5001" [90m-> null[0m[0m
+      [31m-[0m[0m from_port              = 5001 [90m-> null[0m[0m
+      [31m-[0m[0m id                     = "sgrule-932101508" [90m-> null[0m[0m
+      [31m-[0m[0m protocol               = "tcp" [90m-> null[0m[0m
+      [31m-[0m[0m security_group_id      = "sg-0bd70c1ca1c714d11" [90m-> null[0m[0m
+      [31m-[0m[0m security_group_rule_id = "sgr-0b32764e19139a30a" [90m-> null[0m[0m
+      [31m-[0m[0m self                   = false [90m-> null[0m[0m
+      [31m-[0m[0m to_port                = 5001 [90m-> null[0m[0m
+      [31m-[0m[0m type                   = "ingress" [90m-> null[0m[0m
+    }
+
+[1m  # module.security_group.aws_security_group_rule.egress_all[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "egress_all" {
+      [31m-[0m[0m cidr_blocks            = [
+          [31m-[0m[0m "0.0.0.0/0",
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m description            = "Allow all outbound" [90m-> null[0m[0m
+      [31m-[0m[0m from_port              = 0 [90m-> null[0m[0m
+      [31m-[0m[0m id                     = "sgrule-260579820" [90m-> null[0m[0m
+      [31m-[0m[0m protocol               = "-1" [90m-> null[0m[0m
+      [31m-[0m[0m security_group_id      = "sg-0bd70c1ca1c714d11" [90m-> null[0m[0m
+      [31m-[0m[0m security_group_rule_id = "sgr-09a76ff0a2930d99b" [90m-> null[0m[0m
+      [31m-[0m[0m self                   = false [90m-> null[0m[0m
+      [31m-[0m[0m to_port                = 0 [90m-> null[0m[0m
+      [31m-[0m[0m type                   = "egress" [90m-> null[0m[0m
+    }
+
+[1m  # module.security_group.aws_security_group_rule.ssh_in[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group_rule" "ssh_in" {
+      [31m-[0m[0m cidr_blocks            = [
+          [31m-[0m[0m "0.0.0.0/0",
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m description            = "SSH" [90m-> null[0m[0m
+      [31m-[0m[0m from_port              = 22 [90m-> null[0m[0m
+      [31m-[0m[0m id                     = "sgrule-2152667884" [90m-> null[0m[0m
+      [31m-[0m[0m protocol               = "tcp" [90m-> null[0m[0m
+      [31m-[0m[0m security_group_id      = "sg-0bd70c1ca1c714d11" [90m-> null[0m[0m
+      [31m-[0m[0m security_group_rule_id = "sgr-0c68dad80f6eeaac7" [90m-> null[0m[0m
+      [31m-[0m[0m self                   = false [90m-> null[0m[0m
+      [31m-[0m[0m to_port                = 22 [90m-> null[0m[0m
+      [31m-[0m[0m type                   = "ingress" [90m-> null[0m[0m
+    }
+
+[1mPlan:[0m 0 to add, 0 to change, 6 to destroy.
+[0m
+Changes to Outputs:
+  [31m-[0m[0m instance_id = "i-0695db9456cad3cd9" [90m-> null[0m[0m
+  [31m-[0m[0m public_ip   = "18.221.254.220" [90m-> null[0m[0m
+[0m[1mmodule.security_group.aws_security_group_rule.app_in: Destroying... [id=sgrule-932101508][0m[0m
+[0m[1mmodule.security_group.aws_security_group_rule.ssh_in: Destroying... [id=sgrule-2152667884][0m[0m
+[0m[1mmodule.security_group.aws_security_group_rule.egress_all: Destroying... [id=sgrule-260579820][0m[0m
+[0m[1mmodule.ec2.aws_instance.this: Destroying... [id=i-0695db9456cad3cd9][0m[0m
+[0m[1mmodule.security_group.aws_security_group_rule.app_in: Destruction complete after 1s[0m
+[0m[1mmodule.security_group.aws_security_group_rule.ssh_in: Destruction complete after 2s[0m
+[0m[1mmodule.security_group.aws_security_group_rule.egress_all: Destruction complete after 3s[0m
+[0m[1mmodule.ec2.aws_instance.this: Still destroying... [id=i-0695db9456cad3cd9, 00m10s elapsed][0m[0m
+[0m[1mmodule.ec2.aws_instance.this: Still destroying... [id=i-0695db9456cad3cd9, 00m20s elapsed][0m[0m
+[0m[1mmodule.ec2.aws_instance.this: Destruction complete after 21s[0m
+[0m[1maws_key_pair.this: Destroying... [id=devops-key][0m[0m
+[0m[1mmodule.security_group.aws_security_group.this: Destroying... [id=sg-0bd70c1ca1c714d11][0m[0m
+[0m[1maws_key_pair.this: Destruction complete after 0s[0m
+[0m[1mmodule.security_group.aws_security_group.this: Destruction complete after 1s[0m
+[0m[1m[32m
+Destroy complete! Resources: 6 destroyed.
+[0m

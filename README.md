@@ -1,124 +1,127 @@
-# DevOps Automation — AWS Module
+# DevOps AWS — Terraform Mini Project
 
-This module extends my previous project  
-➡️ [DevOps Automation (Local VM Simulation)](https://github.com/shaked-sharon/devops-automation.git)  
-by replacing the simulated local machines with a **real AWS EC2 instance** using **Terraform**,  
-and adding a **Python script** that lists live EC2 instances with their details.
+This repo is a small, focused Terraform setup that creates:
+- a **Security Group** (inbound **SSH 22** + **app 5001**, egress anywhere),
+- one **EC2** instance (**t3.micro**, **Ubuntu 22.04**, **20 GB gp3** root volume),
+- and (optionally) stores **remote Terraform state** in **S3**.
 
----
+**Region:** `us-east-2`  
+**Default tags:** `env=devops`, `owner=Sharon`
 
-## What this does
-- Builds a **t3.medium** EC2 instance with:
-  - A **public IP**
-  - A **key pair**
-  - A **security group** allowing inbound TCP **22 (SSH)** and **5001 (App)**, and outbound **anywhere**
-- Prints the **public IP** after `terraform apply`
-- Lists EC2 instances in a formatted table (`AWS/python/list_ec2.py`)
-  - Columns: **InstanceId**, **Name**, **Type**, **State**, **PublicIP**, **SecurityGroups**
-- Uses **environment variables** for AWS authentication (no secrets in code)
-- Integrates everything inside a friendly Python app (`cloud_manager.py`)  
-  that offers both **Local** and **AWS** options.
+>SECURITY NOTE: opening ports **22** and **5001** to `0.0.0.0/0` is OK for class/demo. In real projects, lock these down to your IP/CIDR or use a bastion host.
 
 ---
 
-## Quick Start Guide
-1. Set AWS credentials in the terminal:
-   ```bash
-   export AWS_ACCESS_KEY_ID="YOUR_KEY"
-   export AWS_SECRET_ACCESS_KEY="YOUR_SECRET"
-   export AWS_DEFAULT_REGION="eu-central-1"
-   ```
-2. Build EC2 instance:
-   ```bash
-   cd AWS/terraform
-   terraform init
-   terraform apply -auto-approve
-   ```
-3. Note: **public IP** printed at the end:
-   ```bash
-   terraform output public_ip
-   ```
-4. Connect to your instance (Ubuntu AMI user):
-   ```bash
-   chmod 600 ~/.ssh/devops-key
-   ssh -i ~/.ssh/devops-key ubuntu@<PUBLIC_IP>
-   ```
-5. Run Python EC2 List:
-   - NOTE: If `.venv` doesn’t exist yet, create it first:
-   > ```bash
-   > python3 -m venv .venv
-   > source .venv/bin/activate
-   > pip install -r requirements.txt
-   > ```
-   > Then run the script:
-   > ```bash
-   > source .venv/bin/activate
-   > python AWS/python/list_ec2.py
-   
-   - Then move to the following steps:
-   ```bash
-   source .venv/bin/activate
-   python AWS/python/list_ec2.py
-   ```
-6. Use app menu (to view input/output menu--optional):
-   ```bash
-   python cloud_manager.py
-   ```
-   - **1)** Add local machine (simple record)
-   - **2)** List local machines
-   - **3)** AWS: List EC2 instances (real AWS data)
-   - **4)** Exit
-7. Clean up resources (avoid unneccessary charges):
-   ```bash
-   cd AWS/terraform
-   terraform destroy -auto-approve
-   ```
+## Folder Layout
+
+    terraform/
+      aws/
+        dev/                  # Environment: backend + provider + root module
+          providers.tf
+          main.tf
+          data.tf
+        modules/              # Reusable modules
+          security_group/
+            main.tf
+            variables.tf
+            outputs.tf
+          ec2/
+            main.tf
+            variables.tf
+            outputs.tf
+            data.tf
+    logs/
+      .gitkeep                # Keeps the folder in git; real runs write provisioning.log
+    .gitignore
+    README.md
+    requirements.txt          # (not used by Terraform; kept for consistency)
 
 ---
 
-## Repo layout
-```
-AWS/
- ├── terraform/           # Terraform configuration files (EC2, key pair, security group)
- └── python/list_ec2.py   # Python script using boto3 + tabulate
-cloud_manager.py          # Main menu: Local + AWS integration
-configs/instances.json    # Local records (auto-created)
-logs/app.log              # Log file (auto-created)
-requirements.txt          # Python dependencies
-```
+## Prerequisites
+
+1) **Terraform** installed (Mac: Homebrew, Windows: Chocolatey, Linux: apt).  
+2) **AWS CLI** configured with credentials and default region **us-east-2**.  
+   - You can export env vars per terminal session:
+
+        export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
+        export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
+        export AWS_DEFAULT_REGION="us-east-2"
+
+3) **S3 bucket for remote state** (only if you want _remote_ backend):
+   - Bucket name used here: **shaked-s3-devops** (you can change it in `providers.tf`).
+   - If the bucket doesn’t exist, create and enable versioning:
+
+        aws s3 mb s3://shaked-s3-devops --region us-east-2
+        aws s3api put-bucket-versioning --bucket shaked-s3-devops --versioning-configuration Status=Enabled
+
+4) **SSH key** at `~/.ssh/devops-key` (private) and `~/.ssh/devops-key.pub` (public).  
+   - Create one if needed:
+
+        ssh-keygen -t rsa -b 4096 -f ~/.ssh/devops-key -N ""
 
 ---
 
-## Project Notes
-- This AWS module continues my earlier **local VM simulator** project (https://github.com/shaked-sharon/devops-automation.git)
-  The local mode (created in first project) remains available inside `cloud_manager.py` to demonstrate input validation  
-  & configuration -- actual infrastructure is deployed on AWS via Terraform
-- The EC2 **OS** is fixed to **Ubuntu** (Terraform AMI).  
-- The **SSH port** is fixed to **22**, and **TCP 5001** is open for testing future app.
-- **Backups** default to enabled in local records for simplicity.  
-- The `SecurityGroups` column in the EC2 list displays inbound TCP ports for each instance
-- Terraform’s `public_ip` output matches the same value shown in the EC2 listing table
-- SSH (22) and TCP 5001 are open to 0.0.0.0/0 for grading purposes only.
-      - In production, restrict these to specific CIDR ranges or a bastion host.
-- Assumes a default VPC exists in region `eu-central-1`
-      - If your account has no default VPC, create one / update Terraform to use specific subnet ID
+## Clean Up (avoid charges)
+
+When you’re done, destroy the resources and log it:
+
+    terraform destroy
+    terraform destroy -auto-approve
 
 ---
 
-## Safety
-- No AWS credentials or secrets are stored in code or Git history.
-- `.gitignore` excludes Terraform state files, private keys, and virtual environments.
-- Always run `terraform destroy` when finished to avoid charges.
+## Module Documentation (terraform-docs)
+
+Generate Registry-style docs for each module. First install the tool (Mac):
+
+    brew install terraform-docs
+
+Then run inside each module:
+
+    cd terraform/aws/modules/security_group
+    terraform-docs markdown . > README.md
+
+    cd ../ec2
+    terraform-docs markdown . > README.md
+
+These `README.md` files live next to the modules and describe inputs/outputs and usage.
 
 ---
 
-## Author & Context
-Created as part of my DevOps studies (AWS Infrastructure Module)  
-and a continuation of my original **DevOps Automation** project.  
-This AWS version demonstrates real infrastructure provisioning,  
-automation with Terraform, and cloud resource integration via Python.
+## Notes & Defaults
+
+- **Backend (providers.tf):** configured for S3 bucket `shaked-s3-devops` in `us-east-2` with a key path under your name (adjust if needed).
+- **AMI:** Ubuntu 22.04 LTS is selected via data source in the EC2 module.
+- **Instance type:** `t3.micro` (fits the lab; change in `terraform/aws/modules/ec2/variables.tf` if needed).
+- **Root volume:** `20GB`, `gp3`, `delete_on_termination = true`.
+- **VPC/Subnet:** The environment uses your **default VPC** and first subnet found in `us-east-2` (see `terraform/aws/dev/data.tf`). If your account has no default VPC, replace with data-sourced or explicit VPC/Subnet IDs.
+- **Open ports:** 22 (SSH) and 5001 (app test). Edit the `allowed_cidrs` variable in the SG module to restrict access.
+- **Formatting:** run `terraform fmt -recursive` before committing, to make the code look tidy.
 
 ---
 
-✅ **Final Submission:**  
-GitHub Repository — [DevOps Automation — AWS Module](https://github.com/shaked-sharon/devops-automation-aws)
+## Typical Workflow
+
+    # 0) one-time: create S3 bucket + versioning (if using remote state)
+    aws s3 mb s3://shaked-s3-devops --region us-east-2
+    aws s3api put-bucket-versioning --bucket shaked-s3-devops --versioning-configuration Status=Enabled
+
+    # 1) export AWS creds (new terminal sessions)
+    export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
+    export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
+    export AWS_DEFAULT_REGION="us-east-2"
+
+    # 2) run from env folder 
+    cd terraform/aws/dev
+    terraform init
+    terraform plan
+    terraform apply -auto-approve
+    terraform output
+
+    # 3) (optional) SSH to the instance
+    ssh -i ~/.ssh/devops-key ubuntu@$(terraform output -raw public_ip)
+
+    # 4) destroy when done
+    terraform destroy -auto-approve
+

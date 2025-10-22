@@ -3,31 +3,18 @@
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
-terraform.tfvars
 
 # Python
-.venv/
-venv/
-env/
-ENV/
 __pycache__/
-*.py[cod]
-*.egg-info/
-dist/
-build/
-
-# Keys & Secrets
-*.pem
-*.key
-*.p12
-*.csr
-*.crt
-*.cer
-.aws/
-*.secrets
-*.env
+*.pyc
+.venv/
 
 # macOS
 .DS_Store
 .vscode/
-.idea/
+
+# Keys & secrets 
+*.pem
+*.key
+*.env
+*.secrets

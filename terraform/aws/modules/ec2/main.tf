@@ -1,7 +1,7 @@
 # EC2 module
 # Ubuntu 22.04 AMI (data source)
-# puts instance > given subnet & SGs
-# set to 20GB gp3 root block volume
+# Instance > given subnet & SGs
+# 20GB gp3 root block volume
 
 resource "aws_instance" "this" {
   ami                    = data.aws_ami.ubuntu.id
@@ -18,7 +18,11 @@ resource "aws_instance" "this" {
     delete_on_termination = true
   }
 
-  tags = {
-    Name = var.name
-  }
+  # Merge student-chosen tags with Name
+  tags = merge(
+    {
+      Name = var.name
+    },
+    var.common_tags
+  )
 }

@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "shaked-s3-devops"     # AWS S3 bucket name
+    bucket = "shaked-s3-devops" # AWS S3 bucket name
     key    = "terraform/state.tfstate"
     region = "us-east-2"
   }
