@@ -8,7 +8,7 @@ This repo is a small, focused Terraform setup that creates:
 **Region:** `us-east-2`  
 **Default tags:** `env=devops`, `owner=Sharon`
 
->SECURITY NOTE: opening ports **22** and **5001** to `0.0.0.0/0` is OK for class/demo. In real projects, lock these down to your IP/CIDR or use a bastion host.
+>SECURITY NOTE: opening ports **22** and **5001** to `0.0.0.0/0` is OK for class/demo NOT for production.
 
 ---
 
