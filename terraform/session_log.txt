@@ -84,3 +84,19 @@ To https://github.com/shaked-sharon/devops-aws-terraform.git
 
 === Thu Nov  6 12:01:29 UTC 2025 ===
 $ git add terraform/main.tf terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 12:02:15 UTC 2025 ===
+$ git commit -m 'changed  data sources to data.tf & left resources in main.tf'
+[feature/tf-setup 1f3c011] changed  data sources to data.tf & left resources in main.tf
+ 2 files changed, 27 insertions(+), 44 deletions(-)
+[done]
+
+=== Thu Nov  6 12:02:25 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   6bbf63f..1f3c011  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 12:15:14 UTC 2025 ===
+$ git add terraform/terraform.tfvars terraform/session_log.txt
