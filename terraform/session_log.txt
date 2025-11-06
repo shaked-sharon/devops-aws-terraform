@@ -1,0 +1,102 @@
+
+=== Step 3 completed: dev branch published (UTC 2025-11-04T12:29:50Z) ===
+* dev  57974d2 [origin/dev] minor adjustment to readme file
+  main 57974d2 [origin/main] minor adjustment to readme file
+
+=== Tue Nov  4 13:18:10 UTC 2025 ===
+$ git status
+On branch feature/tf-setup
+Your branch is up to date with 'origin/feature/tf-setup'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	terraform/log.sh
+	terraform/session_log.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+[done]
+
+=== Thu Nov  6 11:04:04 UTC 2025 ===
+$ git add terraform/log.sh terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 11:04:31 UTC 2025 ===
+$ git commit -m 'add simple logger script and session log file'
+[feature/tf-setup 1b6ba4a] add simple logger script and session log file
+ 2 files changed, 32 insertions(+)
+ create mode 100755 terraform/log.sh
+ create mode 100644 terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 11:04:48 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   57974d2..1b6ba4a  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 11:23:29 UTC 2025 ===
+$ git add -A
+[done]
+
+=== Thu Nov  6 11:24:18 UTC 2025 ===
+$ git commit -m 'remove old terraform/aws directory to use  clean structure for new part I project'
+[feature/tf-setup 1432ccd] remove old terraform/aws directory to use  clean structure for new part I project
+ 15 files changed, 18 insertions(+), 348 deletions(-)
+ delete mode 100644 terraform/aws/dev/data.tf
+ delete mode 100644 terraform/aws/dev/main.tf
+ delete mode 100644 terraform/aws/dev/outputs.tf
+ delete mode 100644 terraform/aws/dev/providers.tf
+ delete mode 100644 terraform/aws/dev/variables.tf
+ delete mode 100644 terraform/aws/modules/ec2/README.md
+ delete mode 100644 terraform/aws/modules/ec2/data.tf
+ delete mode 100644 terraform/aws/modules/ec2/main.tf
+ delete mode 100644 terraform/aws/modules/ec2/outputs.tf
+ delete mode 100644 terraform/aws/modules/ec2/variables.tf
+ delete mode 100644 terraform/aws/modules/security_group/README.md
+ delete mode 100644 terraform/aws/modules/security_group/main.tf
+ delete mode 100644 terraform/aws/modules/security_group/outputs.tf
+ delete mode 100644 terraform/aws/modules/security_group/variables.tf
+[done]
+
+=== Thu Nov  6 11:24:42 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   1b6ba4a..1432ccd  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 11:41:29 UTC 2025 ===
+$ git add terraform/main.tf terraform/outputs.tf terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 11:42:25 UTC 2025 ===
+$ git commit -m 'added  main.tf (AMI/VPC/subnets/SG/EC2) & outputs.tf'
+[feature/tf-setup 6bbf63f] added  main.tf (AMI/VPC/subnets/SG/EC2) & outputs.tf
+ 3 files changed, 150 insertions(+)
+ create mode 100644 terraform/main.tf
+ create mode 100644 terraform/outputs.tf
+[done]
+
+=== Thu Nov  6 11:42:40 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   1432ccd..6bbf63f  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 12:01:29 UTC 2025 ===
+$ git add terraform/main.tf terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 12:02:15 UTC 2025 ===
+$ git commit -m 'changed  data sources to data.tf & left resources in main.tf'
+[feature/tf-setup 1f3c011] changed  data sources to data.tf & left resources in main.tf
+ 2 files changed, 27 insertions(+), 44 deletions(-)
+[done]
+
+=== Thu Nov  6 12:02:25 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   6bbf63f..1f3c011  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 12:15:14 UTC 2025 ===
+$ git add terraform/terraform.tfvars terraform/session_log.txt
