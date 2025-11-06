@@ -100,3 +100,708 @@ To https://github.com/shaked-sharon/devops-aws-terraform.git
 
 === Thu Nov  6 12:15:14 UTC 2025 ===
 $ git add terraform/terraform.tfvars terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 12:15:53 UTC 2025 ===
+$ git commit -m 'set home_cidr > IPv4/32 - 104.28.60.68/32'
+[feature/tf-setup 50f9d04] set home_cidr > IPv4/32 - 104.28.60.68/32
+ 2 files changed, 23 insertions(+)
+ create mode 100644 terraform/terraform.tfvars
+[done]
+
+=== Thu Nov  6 12:16:00 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   1f3c011..50f9d04  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 12:23:42 UTC 2025 ===
+$ terraform -version
+Terraform v1.13.3
+on darwin_arm64
+
+Your version of Terraform is out of date! The latest version
+is 1.13.5. You can update by downloading from https://developer.hashicorp.com/terraform/install
+[done]
+
+=== Thu Nov  6 12:24:01 UTC 2025 ===
+$ terraform init
+[0m[1mInitializing the backend...[0m
+[0m[1mInitializing provider plugins...[0m
+- Finding hashicorp/aws versions matching "~> 5.0"...
+- Installing hashicorp/aws v5.100.0...
+- Installed hashicorp/aws v5.100.0 (signed by HashiCorp)
+Terraform has created a lock file [1m.terraform.lock.hcl[0m to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.[0m
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[done]
+
+=== Thu Nov  6 12:27:49 UTC 2025 ===
+$ terraform init
+[0m[1mInitializing the backend...[0m
+[0m[1mInitializing provider plugins...[0m
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v5.100.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[done]
+
+=== Thu Nov  6 12:30:14 UTC 2025 ===
+$ terraform fmt
+data.tf
+main.tf
+[done]
+
+=== Thu Nov  6 12:31:27 UTC 2025 ===
+$ terraform validate
+[32m[1mSuccess![0m The configuration is valid.
+[0m
+[done]
+
+=== Thu Nov  6 12:32:07 UTC 2025 ===
+$ terraform plan -out plan.out
+[0m[1mdata.aws_ami.ubuntu_lts: Reading...[0m[0m
+[0m[1mdata.aws_vpc.default: Reading...[0m[0m
+[0m[1mdata.aws_ami.ubuntu_lts: Read complete after 1s [id=ami-0a854fe96e0b45e4e][0m
+[0m[1mdata.aws_vpc.default: Read complete after 2s [id=vpc-02d9bf15adff612f9][0m
+[0m[1mdata.aws_subnets.in_default_vpc: Reading...[0m[0m
+[0m[1mdata.aws_subnets.in_default_vpc: Read complete after 0s [id=eu-central-1][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform planned the following actions, but then encountered a problem:
+
+[1m  # aws_security_group.builder_sg[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "builder_sg" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "SSH from home and 5001 open to world"
+      [32m+[0m[0m egress                 = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "All egress"
+              [32m+[0m[0m from_port        = 0
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "-1"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 0
+            },
+        ]
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "App port open to world"
+              [32m+[0m[0m from_port        = 5001
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 5001
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "185.23.101.42/32",
+                ]
+              [32m+[0m[0m description      = "Home SSH"
+              [32m+[0m[0m from_port        = 22
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 22
+            },
+        ]
+      [32m+[0m[0m name                   = "builder-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "builder-sg"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Name"  = "builder-sg"
+          [32m+[0m[0m "env"   = "devops"
+          [32m+[0m[0m "owner" = "Sharon"
+        }
+      [32m+[0m[0m vpc_id                 = "vpc-02d9bf15adff612f9"
+    }
+
+[1mPlan:[0m 1 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m private_key_local_path = "./builder_key.pem"
+  [32m+[0m[0m security_group_id      = (known after apply)
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mInvalid function argument[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on main.tf line 9, in resource "aws_key_pair" "builder":
+[31m│[0m [0m   9:   public_key = file([4mlocal.public_key_path[0m)[0m
+[31m│[0m [0m    [90m├────────────────[0m
+[31m│[0m [0m[0m    [90m│[0m while calling [1mfile[0m([0mpath)
+[31m│[0m [0m    [90m│[0m [1mlocal.public_key_path[0m is "./builder_key.pub"
+[31m│[0m [0m[0m
+[31m│[0m [0mInvalid value for "path" parameter: no file exists at "./builder_key.pub";
+[31m│[0m [0mthis function works only with files that are distributed as part of the
+[31m│[0m [0mconfiguration source code, so if this file will be created by a resource in
+[31m│[0m [0mthis configuration you must instead obtain this result from an attribute of
+[31m│[0m [0mthat resource.
+[31m╵[0m[0m
+[done]
+
+=== Thu Nov  6 12:34:23 UTC 2025 ===
+$ terraform fmt
+[done]
+
+=== Thu Nov  6 12:34:32 UTC 2025 ===
+$ terraform validate
+[32m[1mSuccess![0m The configuration is valid.
+[0m
+[done]
+
+=== Thu Nov  6 12:34:58 UTC 2025 ===
+$ terraform validate
+[32m[1mSuccess![0m The configuration is valid.
+[0m
+[done]
+
+=== Thu Nov  6 12:36:37 UTC 2025 ===
+$ echo log test
+log test
+[done]
+
+=== Thu Nov  6 12:36:55 UTC 2025 ===
+$ echo log test
+log test
+[done]
+
+=== Thu Nov  6 12:37:50 UTC 2025 ===
+$ echo log test
+log test
+[done]
+
+=== Thu Nov  6 12:40:13 UTC 2025 ===
+$ echo log test
+log test
+[done]
+
+=== Thu Nov  6 12:42:50 UTC 2025 ===
+$ terraform fmt
+[done]
+
+=== Thu Nov  6 12:42:59 UTC 2025 ===
+$ terraform validate
+[32m[1mSuccess![0m The configuration is valid.
+[0m
+[done]
+
+=== Thu Nov  6 12:43:27 UTC 2025 ===
+$ terraform plan -out plan.out
+[0m[1mdata.aws_vpc.default: Reading...[0m[0m
+[0m[1mdata.aws_ami.ubuntu_lts: Reading...[0m[0m
+[0m[1mdata.aws_ami.ubuntu_lts: Read complete after 1s [id=ami-0a854fe96e0b45e4e][0m
+[0m[1mdata.aws_vpc.default: Read complete after 2s [id=vpc-02d9bf15adff612f9][0m
+[0m[1mdata.aws_subnets.in_default_vpc: Reading...[0m[0m
+[0m[1mdata.aws_subnets.in_default_vpc: Read complete after 0s [id=eu-central-1][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_instance.builder[0m will be created
+[0m  [32m+[0m[0m resource "aws_instance" "builder" {
+      [32m+[0m[0m ami                                  = "ami-0a854fe96e0b45e4e"
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m associate_public_ip_address          = true
+      [32m+[0m[0m availability_zone                    = (known after apply)
+      [32m+[0m[0m cpu_core_count                       = (known after apply)
+      [32m+[0m[0m cpu_threads_per_core                 = (known after apply)
+      [32m+[0m[0m disable_api_stop                     = (known after apply)
+      [32m+[0m[0m disable_api_termination              = (known after apply)
+      [32m+[0m[0m ebs_optimized                        = (known after apply)
+      [32m+[0m[0m enable_primary_ipv6                  = (known after apply)
+      [32m+[0m[0m get_password_data                    = false
+      [32m+[0m[0m host_id                              = (known after apply)
+      [32m+[0m[0m host_resource_group_arn              = (known after apply)
+      [32m+[0m[0m iam_instance_profile                 = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_initiated_shutdown_behavior = (known after apply)
+      [32m+[0m[0m instance_lifecycle                   = (known after apply)
+      [32m+[0m[0m instance_state                       = (known after apply)
+      [32m+[0m[0m instance_type                        = "t3.medium"
+      [32m+[0m[0m ipv6_address_count                   = (known after apply)
+      [32m+[0m[0m ipv6_addresses                       = (known after apply)
+      [32m+[0m[0m key_name                             = "builder-key"
+      [32m+[0m[0m monitoring                           = (known after apply)
+      [32m+[0m[0m outpost_arn                          = (known after apply)
+      [32m+[0m[0m password_data                        = (known after apply)
+      [32m+[0m[0m placement_group                      = (known after apply)
+      [32m+[0m[0m placement_partition_number           = (known after apply)
+      [32m+[0m[0m primary_network_interface_id         = (known after apply)
+      [32m+[0m[0m private_dns                          = (known after apply)
+      [32m+[0m[0m private_ip                           = (known after apply)
+      [32m+[0m[0m public_dns                           = (known after apply)
+      [32m+[0m[0m public_ip                            = (known after apply)
+      [32m+[0m[0m secondary_private_ips                = (known after apply)
+      [32m+[0m[0m security_groups                      = (known after apply)
+      [32m+[0m[0m source_dest_check                    = true
+      [32m+[0m[0m spot_instance_request_id             = (known after apply)
+      [32m+[0m[0m subnet_id                            = "subnet-0920e052e68a1fd5f"
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "builder"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "Name"  = "builder"
+          [32m+[0m[0m "env"   = "devops"
+          [32m+[0m[0m "owner" = "Sharon"
+        }
+      [32m+[0m[0m tenancy                              = (known after apply)
+      [32m+[0m[0m user_data                            = (known after apply)
+      [32m+[0m[0m user_data_base64                     = (known after apply)
+      [32m+[0m[0m user_data_replace_on_change          = false
+      [32m+[0m[0m vpc_security_group_ids               = (known after apply)
+
+      [32m+[0m[0m capacity_reservation_specification (known after apply)
+
+      [32m+[0m[0m cpu_options (known after apply)
+
+      [32m+[0m[0m ebs_block_device (known after apply)
+
+      [32m+[0m[0m enclave_options (known after apply)
+
+      [32m+[0m[0m ephemeral_block_device (known after apply)
+
+      [32m+[0m[0m instance_market_options (known after apply)
+
+      [32m+[0m[0m maintenance_options (known after apply)
+
+      [32m+[0m[0m metadata_options (known after apply)
+
+      [32m+[0m[0m network_interface (known after apply)
+
+      [32m+[0m[0m private_dns_name_options (known after apply)
+
+      [32m+[0m[0m root_block_device {
+          [32m+[0m[0m delete_on_termination = true
+          [32m+[0m[0m device_name           = (known after apply)
+          [32m+[0m[0m encrypted             = (known after apply)
+          [32m+[0m[0m iops                  = (known after apply)
+          [32m+[0m[0m kms_key_id            = (known after apply)
+          [32m+[0m[0m tags_all              = (known after apply)
+          [32m+[0m[0m throughput            = (known after apply)
+          [32m+[0m[0m volume_id             = (known after apply)
+          [32m+[0m[0m volume_size           = 20
+          [32m+[0m[0m volume_type           = "gp3"
+        }
+    }
+
+[1m  # aws_key_pair.builder[0m will be created
+[0m  [32m+[0m[0m resource "aws_key_pair" "builder" {
+      [32m+[0m[0m arn             = (known after apply)
+      [32m+[0m[0m fingerprint     = (known after apply)
+      [32m+[0m[0m id              = (known after apply)
+      [32m+[0m[0m key_name        = "builder-key"
+      [32m+[0m[0m key_name_prefix = (known after apply)
+      [32m+[0m[0m key_pair_id     = (known after apply)
+      [32m+[0m[0m key_type        = (known after apply)
+      [32m+[0m[0m public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9SA22e9HLlHXPi6pw11fTmdneRzMoqOiC811shmHAB7PJgJ4aVExBFm6UGEJEXsrkyyiFDXa9Zvmk9IcrgSuQrqLcfFA17mBm++FwGkeL9vqhvuIYm8X/mc65ivN+cV1m3fTToOWMHgKSlaxcDGzj1veVilI0+LiOpJpxZCIkJOjW8tjxX1ZvBtgJb/HZNNDrtaoeYjOb6StxnPkPgAv/4zILjPWZM9XERKU7v8fxUeWkggY4OjpFzuqGmZNPFsM85HU0rGVjgarXt7S5CX/XWTIg2tR+NEyhNi0ckwrKkSgl3R8VJwovSon+HJ0aoe7kJEbJiA5lHMZu7paTMn1X6fEDyyHZq5T/e6SXsYpYYIzQ+/kBZxQ3LDTH5eLW0XmV3pu+DTAtH8Ol308uD/v/HoZb0sQlVnkvVhhlxESuPPqovdB9SKpgZOq3rDHvPDPkTf9C9QGeeaxwyXxBymMsTty6XXjuziyQySl6jCUPRKw6336socE+dSKgPMDMfPi74+7sHQqgA/zlnz8ZQ4v7MCioqyCqwVud2XyHT3Fv397AlcFbrJGzI31kMUwE6ug6R+hr5hSuSU8skD5tns/TNn4G3QBz6UEdmtfnMPHkPS4801b2JEp4xFOYoM4U7yQQLkIjXx/jIeVxn8BG2Cb3Mnd/db1KrEU/EUr7rjK64w== sharonshaked@Sharons-Laptop.local"
+      [32m+[0m[0m tags            = {
+          [32m+[0m[0m "Name" = "builder"
+        }
+      [32m+[0m[0m tags_all        = {
+          [32m+[0m[0m "Name"  = "builder"
+          [32m+[0m[0m "env"   = "devops"
+          [32m+[0m[0m "owner" = "Sharon"
+        }
+    }
+
+[1m  # aws_security_group.builder_sg[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "builder_sg" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "SSH from home and 5001 open to world"
+      [32m+[0m[0m egress                 = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "All egress"
+              [32m+[0m[0m from_port        = 0
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "-1"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 0
+            },
+        ]
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "App port open to world"
+              [32m+[0m[0m from_port        = 5001
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 5001
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "185.23.101.42/32",
+                ]
+              [32m+[0m[0m description      = "Home SSH"
+              [32m+[0m[0m from_port        = 22
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 22
+            },
+        ]
+      [32m+[0m[0m name                   = "builder-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "builder-sg"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Name"  = "builder-sg"
+          [32m+[0m[0m "env"   = "devops"
+          [32m+[0m[0m "owner" = "Sharon"
+        }
+      [32m+[0m[0m vpc_id                 = "vpc-02d9bf15adff612f9"
+    }
+
+[1mPlan:[0m 3 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m private_key_local_path = "./builder_key.pem"
+  [32m+[0m[0m public_ip              = (known after apply)
+  [32m+[0m[0m security_group_id      = (known after apply)
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Saved the plan to: plan.out
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "plan.out"
+[done]
+
+=== Thu Nov  6 12:44:21 UTC 2025 ===
+$ terraform apply -auto-approve plan.out
+[0m[1maws_key_pair.builder: Creating...[0m[0m
+[0m[1maws_security_group.builder_sg: Creating...[0m[0m
+[0m[1maws_key_pair.builder: Creation complete after 1s [id=builder-key][0m
+[0m[1maws_security_group.builder_sg: Creation complete after 4s [id=sg-0698b5c447e060b58][0m
+[0m[1maws_instance.builder: Creating...[0m[0m
+[0m[1maws_instance.builder: Still creating... [00m10s elapsed][0m[0m
+[0m[1maws_instance.builder: Creation complete after 14s [id=i-0c600c174a0afbf12][0m
+[0m[1m[32m
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mprivate_key_local_path = "./builder_key.pem"
+public_ip = "3.65.28.65"
+security_group_id = "sg-0698b5c447e060b58"
+[done]
+
+=== Thu Nov  6 12:45:21 UTC 2025 ===
+$ terraform output
+private_key_local_path = "./builder_key.pem"
+public_ip = "3.65.28.65"
+security_group_id = "sg-0698b5c447e060b58"
+[done]
+
+=== Thu Nov  6 12:57:52 UTC 2025 ===
+$ terraform destroy -auto-approve
+[0m[1mdata.aws_vpc.default: Reading...[0m[0m
+[0m[1mdata.aws_ami.ubuntu_lts: Reading...[0m[0m
+[0m[1maws_key_pair.builder: Refreshing state... [id=builder-key][0m
+[0m[1mdata.aws_ami.ubuntu_lts: Read complete after 0s [id=ami-0a854fe96e0b45e4e][0m
+[0m[1mdata.aws_vpc.default: Read complete after 1s [id=vpc-02d9bf15adff612f9][0m
+[0m[1mdata.aws_subnets.in_default_vpc: Reading...[0m[0m
+[0m[1maws_security_group.builder_sg: Refreshing state... [id=sg-0698b5c447e060b58][0m
+[0m[1mdata.aws_subnets.in_default_vpc: Read complete after 0s [id=eu-central-1][0m
+[0m[1maws_instance.builder: Refreshing state... [id=i-0c600c174a0afbf12][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [31m-[0m destroy[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_instance.builder[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_instance" "builder" {
+      [31m-[0m[0m ami                                  = "ami-0a854fe96e0b45e4e" [90m-> null[0m[0m
+      [31m-[0m[0m arn                                  = "arn:aws:ec2:eu-central-1:185685335426:instance/i-0c600c174a0afbf12" [90m-> null[0m[0m
+      [31m-[0m[0m associate_public_ip_address          = true [90m-> null[0m[0m
+      [31m-[0m[0m availability_zone                    = "eu-central-1c" [90m-> null[0m[0m
+      [31m-[0m[0m cpu_core_count                       = 1 [90m-> null[0m[0m
+      [31m-[0m[0m cpu_threads_per_core                 = 2 [90m-> null[0m[0m
+      [31m-[0m[0m disable_api_stop                     = false [90m-> null[0m[0m
+      [31m-[0m[0m disable_api_termination              = false [90m-> null[0m[0m
+      [31m-[0m[0m ebs_optimized                        = false [90m-> null[0m[0m
+      [31m-[0m[0m get_password_data                    = false [90m-> null[0m[0m
+      [31m-[0m[0m hibernation                          = false [90m-> null[0m[0m
+      [31m-[0m[0m id                                   = "i-0c600c174a0afbf12" [90m-> null[0m[0m
+      [31m-[0m[0m instance_initiated_shutdown_behavior = "stop" [90m-> null[0m[0m
+      [31m-[0m[0m instance_state                       = "running" [90m-> null[0m[0m
+      [31m-[0m[0m instance_type                        = "t3.medium" [90m-> null[0m[0m
+      [31m-[0m[0m ipv6_address_count                   = 0 [90m-> null[0m[0m
+      [31m-[0m[0m ipv6_addresses                       = [] [90m-> null[0m[0m
+      [31m-[0m[0m key_name                             = "builder-key" [90m-> null[0m[0m
+      [31m-[0m[0m monitoring                           = false [90m-> null[0m[0m
+      [31m-[0m[0m placement_partition_number           = 0 [90m-> null[0m[0m
+      [31m-[0m[0m primary_network_interface_id         = "eni-0c4e6c8f16077c446" [90m-> null[0m[0m
+      [31m-[0m[0m private_dns                          = "ip-172-31-6-148.eu-central-1.compute.internal" [90m-> null[0m[0m
+      [31m-[0m[0m private_ip                           = "172.31.6.148" [90m-> null[0m[0m
+      [31m-[0m[0m public_dns                           = "ec2-3-65-28-65.eu-central-1.compute.amazonaws.com" [90m-> null[0m[0m
+      [31m-[0m[0m public_ip                            = "3.65.28.65" [90m-> null[0m[0m
+      [31m-[0m[0m secondary_private_ips                = [] [90m-> null[0m[0m
+      [31m-[0m[0m security_groups                      = [
+          [31m-[0m[0m "builder-sg",
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m source_dest_check                    = true [90m-> null[0m[0m
+      [31m-[0m[0m subnet_id                            = "subnet-0920e052e68a1fd5f" [90m-> null[0m[0m
+      [31m-[0m[0m tags                                 = {
+          [31m-[0m[0m "Name" = "builder"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all                             = {
+          [31m-[0m[0m "Name"  = "builder"
+          [31m-[0m[0m "env"   = "devops"
+          [31m-[0m[0m "owner" = "Sharon"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tenancy                              = "default" [90m-> null[0m[0m
+      [31m-[0m[0m user_data_replace_on_change          = false [90m-> null[0m[0m
+      [31m-[0m[0m vpc_security_group_ids               = [
+          [31m-[0m[0m "sg-0698b5c447e060b58",
+        ] [90m-> null[0m[0m
+        [90m# (7 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m capacity_reservation_specification {
+          [31m-[0m[0m capacity_reservation_preference = "open" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m cpu_options {
+          [31m-[0m[0m core_count       = 1 [90m-> null[0m[0m
+          [31m-[0m[0m threads_per_core = 2 [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+
+      [31m-[0m[0m credit_specification {
+          [31m-[0m[0m cpu_credits = "unlimited" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m enclave_options {
+          [31m-[0m[0m enabled = false [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m maintenance_options {
+          [31m-[0m[0m auto_recovery = "default" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m metadata_options {
+          [31m-[0m[0m http_endpoint               = "enabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_protocol_ipv6          = "disabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_put_response_hop_limit = 1 [90m-> null[0m[0m
+          [31m-[0m[0m http_tokens                 = "optional" [90m-> null[0m[0m
+          [31m-[0m[0m instance_metadata_tags      = "disabled" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m private_dns_name_options {
+          [31m-[0m[0m enable_resource_name_dns_a_record    = false [90m-> null[0m[0m
+          [31m-[0m[0m enable_resource_name_dns_aaaa_record = false [90m-> null[0m[0m
+          [31m-[0m[0m hostname_type                        = "ip-name" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m root_block_device {
+          [31m-[0m[0m delete_on_termination = true [90m-> null[0m[0m
+          [31m-[0m[0m device_name           = "/dev/sda1" [90m-> null[0m[0m
+          [31m-[0m[0m encrypted             = false [90m-> null[0m[0m
+          [31m-[0m[0m iops                  = 3000 [90m-> null[0m[0m
+          [31m-[0m[0m tags                  = {} [90m-> null[0m[0m
+          [31m-[0m[0m tags_all              = {
+              [31m-[0m[0m "env"   = "devops"
+              [31m-[0m[0m "owner" = "Sharon"
+            } [90m-> null[0m[0m
+          [31m-[0m[0m throughput            = 125 [90m-> null[0m[0m
+          [31m-[0m[0m volume_id             = "vol-0986e3e03fadbedc9" [90m-> null[0m[0m
+          [31m-[0m[0m volume_size           = 20 [90m-> null[0m[0m
+          [31m-[0m[0m volume_type           = "gp3" [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+    }
+
+[1m  # aws_key_pair.builder[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_key_pair" "builder" {
+      [31m-[0m[0m arn             = "arn:aws:ec2:eu-central-1:185685335426:key-pair/builder-key" [90m-> null[0m[0m
+      [31m-[0m[0m fingerprint     = "4f:ab:82:7c:ca:90:85:20:e8:39:91:2d:3c:0e:f8:d5" [90m-> null[0m[0m
+      [31m-[0m[0m id              = "builder-key" [90m-> null[0m[0m
+      [31m-[0m[0m key_name        = "builder-key" [90m-> null[0m[0m
+      [31m-[0m[0m key_pair_id     = "key-085c426d59aa3071a" [90m-> null[0m[0m
+      [31m-[0m[0m key_type        = "rsa" [90m-> null[0m[0m
+      [31m-[0m[0m public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9SA22e9HLlHXPi6pw11fTmdneRzMoqOiC811shmHAB7PJgJ4aVExBFm6UGEJEXsrkyyiFDXa9Zvmk9IcrgSuQrqLcfFA17mBm++FwGkeL9vqhvuIYm8X/mc65ivN+cV1m3fTToOWMHgKSlaxcDGzj1veVilI0+LiOpJpxZCIkJOjW8tjxX1ZvBtgJb/HZNNDrtaoeYjOb6StxnPkPgAv/4zILjPWZM9XERKU7v8fxUeWkggY4OjpFzuqGmZNPFsM85HU0rGVjgarXt7S5CX/XWTIg2tR+NEyhNi0ckwrKkSgl3R8VJwovSon+HJ0aoe7kJEbJiA5lHMZu7paTMn1X6fEDyyHZq5T/e6SXsYpYYIzQ+/kBZxQ3LDTH5eLW0XmV3pu+DTAtH8Ol308uD/v/HoZb0sQlVnkvVhhlxESuPPqovdB9SKpgZOq3rDHvPDPkTf9C9QGeeaxwyXxBymMsTty6XXjuziyQySl6jCUPRKw6336socE+dSKgPMDMfPi74+7sHQqgA/zlnz8ZQ4v7MCioqyCqwVud2XyHT3Fv397AlcFbrJGzI31kMUwE6ug6R+hr5hSuSU8skD5tns/TNn4G3QBz6UEdmtfnMPHkPS4801b2JEp4xFOYoM4U7yQQLkIjXx/jIeVxn8BG2Cb3Mnd/db1KrEU/EUr7rjK64w== sharonshaked@Sharons-Laptop.local" [90m-> null[0m[0m
+      [31m-[0m[0m tags            = {
+          [31m-[0m[0m "Name" = "builder"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all        = {
+          [31m-[0m[0m "Name"  = "builder"
+          [31m-[0m[0m "env"   = "devops"
+          [31m-[0m[0m "owner" = "Sharon"
+        } [90m-> null[0m[0m
+        [90m# (1 unchanged attribute hidden)[0m[0m
+    }
+
+[1m  # aws_security_group.builder_sg[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_security_group" "builder_sg" {
+      [31m-[0m[0m arn                    = "arn:aws:ec2:eu-central-1:185685335426:security-group/sg-0698b5c447e060b58" [90m-> null[0m[0m
+      [31m-[0m[0m description            = "SSH from home and 5001 open to world" [90m-> null[0m[0m
+      [31m-[0m[0m egress                 = [
+          [31m-[0m[0m {
+              [31m-[0m[0m cidr_blocks      = [
+                  [31m-[0m[0m "0.0.0.0/0",
+                ]
+              [31m-[0m[0m description      = "All egress"
+              [31m-[0m[0m from_port        = 0
+              [31m-[0m[0m ipv6_cidr_blocks = []
+              [31m-[0m[0m prefix_list_ids  = []
+              [31m-[0m[0m protocol         = "-1"
+              [31m-[0m[0m security_groups  = []
+              [31m-[0m[0m self             = false
+              [31m-[0m[0m to_port          = 0
+            },
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m id                     = "sg-0698b5c447e060b58" [90m-> null[0m[0m
+      [31m-[0m[0m ingress                = [
+          [31m-[0m[0m {
+              [31m-[0m[0m cidr_blocks      = [
+                  [31m-[0m[0m "0.0.0.0/0",
+                ]
+              [31m-[0m[0m description      = "App port open to world"
+              [31m-[0m[0m from_port        = 5001
+              [31m-[0m[0m ipv6_cidr_blocks = []
+              [31m-[0m[0m prefix_list_ids  = []
+              [31m-[0m[0m protocol         = "tcp"
+              [31m-[0m[0m security_groups  = []
+              [31m-[0m[0m self             = false
+              [31m-[0m[0m to_port          = 5001
+            },
+          [31m-[0m[0m {
+              [31m-[0m[0m cidr_blocks      = [
+                  [31m-[0m[0m "185.23.101.42/32",
+                ]
+              [31m-[0m[0m description      = "Home SSH"
+              [31m-[0m[0m from_port        = 22
+              [31m-[0m[0m ipv6_cidr_blocks = []
+              [31m-[0m[0m prefix_list_ids  = []
+              [31m-[0m[0m protocol         = "tcp"
+              [31m-[0m[0m security_groups  = []
+              [31m-[0m[0m self             = false
+              [31m-[0m[0m to_port          = 22
+            },
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m name                   = "builder-sg" [90m-> null[0m[0m
+      [31m-[0m[0m owner_id               = "185685335426" [90m-> null[0m[0m
+      [31m-[0m[0m revoke_rules_on_delete = false [90m-> null[0m[0m
+      [31m-[0m[0m tags                   = {
+          [31m-[0m[0m "Name" = "builder-sg"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all               = {
+          [31m-[0m[0m "Name"  = "builder-sg"
+          [31m-[0m[0m "env"   = "devops"
+          [31m-[0m[0m "owner" = "Sharon"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m vpc_id                 = "vpc-02d9bf15adff612f9" [90m-> null[0m[0m
+        [90m# (1 unchanged attribute hidden)[0m[0m
+    }
+
+[1mPlan:[0m 0 to add, 0 to change, 3 to destroy.
+[0m
+Changes to Outputs:
+  [31m-[0m[0m private_key_local_path = "./builder_key.pem" [90m-> null[0m[0m
+  [31m-[0m[0m public_ip              = "3.65.28.65" [90m-> null[0m[0m
+  [31m-[0m[0m security_group_id      = "sg-0698b5c447e060b58" [90m-> null[0m[0m
+[0m[1maws_instance.builder: Destroying... [id=i-0c600c174a0afbf12][0m[0m
+[0m[1maws_instance.builder: Still destroying... [id=i-0c600c174a0afbf12, 00m10s elapsed][0m[0m
+[0m[1maws_instance.builder: Still destroying... [id=i-0c600c174a0afbf12, 00m20s elapsed][0m[0m
+[0m[1maws_instance.builder: Destruction complete after 21s[0m
+[0m[1maws_key_pair.builder: Destroying... [id=builder-key][0m[0m
+[0m[1maws_security_group.builder_sg: Destroying... [id=sg-0698b5c447e060b58][0m[0m
+[0m[1maws_key_pair.builder: Destruction complete after 0s[0m
+[0m[1maws_security_group.builder_sg: Destruction complete after 1s[0m
+[0m[1m[32m
+Destroy complete! Resources: 3 destroyed.
+[0m[done]
+
+=== Thu Nov  6 12:58:30 UTC 2025 ===
+$ terraform output
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mNo outputs found[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe state file either has no outputs defined, or all the defined outputs
+[33m│[0m [0mare empty. Please define an output in your configuration with the `output`
+[33m│[0m [0mkeyword and run `terraform refresh` for it to become available. If you are
+[33m│[0m [0musing interpolation, please verify the interpolated value is not empty. You
+[33m│[0m [0mcan use the `terraform console` command to assist.
+[33m╵[0m[0m
+[done]
+
+=== Thu Nov  6 13:01:02 UTC 2025 ===
+$ git push
+Everything up-to-date
+[done]
+
+=== Thu Nov  6 13:05:33 UTC 2025 ===
+$ echo 'PR opened: feature/tf-setup > dev'
+PR opened: feature/tf-setup > dev
+[done]
+
+=== Thu Nov  6 13:11:56 UTC 2025 ===
+$ echo 'PR created -  dev >  main'
+PR created -  dev >  main
+[done]
+
+=== Thu Nov  6 13:13:03 UTC 2025 ===
+$ echo 'Merged PR: dev > main branch'
+Merged PR: dev > main branch
+[done]
+
+=== Thu Nov  6 13:16:54 UTC 2025 ===
+$ git add terraform/log.sh terraform/main.tf terraform/session_log.txt

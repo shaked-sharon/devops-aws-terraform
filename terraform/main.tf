@@ -1,6 +1,6 @@
 # Get public key path > local private key  (./builder_key.pem >./builder_key.pub)
 locals {
-  public_key_path = regexreplace(var.private_key_path, "\\.pem$", ".pub")
+  public_key_path = "${var.private_key_path}.pub"
 }
 
 # locally generated public key (.pub) > AWS key pair

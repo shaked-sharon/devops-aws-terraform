@@ -1,12 +1,17 @@
-#!/bin/bash
-# Script for loging
+#!/bin/zsh
+# log file
 
-LOGFILE="terraform/session_log.txt"
+SCRIPT_DIR="${0:A:h}"
+LOGFILE="${SCRIPT_DIR}/session_log.txt"
 
-echo "" >> "$LOGFILE"
-echo "=== $(date -u) ===" >> "$LOGFILE"
-echo "$ $1" >> "$LOGFILE"
+# header
+{
+  print ""
+  print "=== $(env -i TZ=UTC date -u) ==="
+  print "\$ $1"
+} >> "$LOGFILE"
 
-bash -lc "$1" >> "$LOGFILE" 2>&1
+# run the command; mirror to terminal AND append to log
+zsh -lc -- "$1" 2>&1 | tee -a "$LOGFILE"
 
-echo "[done]" >> "$LOGFILE"
+print "[done]" | tee -a "$LOGFILE"
