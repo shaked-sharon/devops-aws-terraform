@@ -18,3 +18,21 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 === Thu Nov  6 11:04:04 UTC 2025 ===
 $ git add terraform/log.sh terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 11:04:31 UTC 2025 ===
+$ git commit -m 'add simple logger script and session log file'
+[feature/tf-setup 1b6ba4a] add simple logger script and session log file
+ 2 files changed, 32 insertions(+)
+ create mode 100755 terraform/log.sh
+ create mode 100644 terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 11:04:48 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   57974d2..1b6ba4a  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 11:23:29 UTC 2025 ===
+$ git add -A
