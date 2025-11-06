@@ -100,3 +100,6 @@ To https://github.com/shaked-sharon/devops-aws-terraform.git
 
 === Thu Nov  6 12:15:14 UTC 2025 ===
 $ git add terraform/terraform.tfvars terraform/session_log.txt
+
+=== Thu Nov  6 13:41:01 UTC 2025 ===
+$ git add python/builder_client.py python/README.md terraform/session_log.txt

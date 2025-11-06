@@ -1,0 +1,1 @@
+This python folder is a placeholder from a prior module is not part of this project phase. It contains a tiny script to read 2 environment variables (APP_NAME defaults to "builder" & APP_PORT which defaults to "5001"). It prints them as a single line, then exits. There is no packaging, deployment, or integration at this time. (Nov. 6, 2025)
