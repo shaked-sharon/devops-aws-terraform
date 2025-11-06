@@ -66,3 +66,21 @@ To https://github.com/shaked-sharon/devops-aws-terraform.git
 
 === Thu Nov  6 11:41:29 UTC 2025 ===
 $ git add terraform/main.tf terraform/outputs.tf terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 11:42:25 UTC 2025 ===
+$ git commit -m 'added  main.tf (AMI/VPC/subnets/SG/EC2) & outputs.tf'
+[feature/tf-setup 6bbf63f] added  main.tf (AMI/VPC/subnets/SG/EC2) & outputs.tf
+ 3 files changed, 150 insertions(+)
+ create mode 100644 terraform/main.tf
+ create mode 100644 terraform/outputs.tf
+[done]
+
+=== Thu Nov  6 11:42:40 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   1432ccd..6bbf63f  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 12:01:29 UTC 2025 ===
+$ git add terraform/main.tf terraform/session_log.txt

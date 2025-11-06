@@ -1,44 +1,9 @@
-# Data sources: Canonical Ubuntu LTS, default VPC, subnets
-data "aws_ami" "ubuntu_lts" {
-  most_recent = true
-  owners      = ["099720109477"] # Canonical
-
-  filter {
-    name   = "name"
-    values = [
-      "ubuntu/images/hvm-ssd/ubuntu-noble-24.04-amd64-server-*",
-      "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
-    ]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnets" "in_default_vpc" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
-}
-
-# get public key from local key path (./builder_key.pub)
+# Get public key path > local private key  (./builder_key.pem >./builder_key.pub)
 locals {
   public_key_path = regexreplace(var.private_key_path, "\\.pem$", ".pub")
 }
 
-# locally generated public key (.pub) for AWS key pair
+# locally generated public key (.pub) > AWS key pair
 resource "aws_key_pair" "builder" {
   key_name   = var.key_name
   public_key = file(local.public_key_path)
@@ -47,15 +12,15 @@ resource "aws_key_pair" "builder" {
   }
 }
 
-# Security Group: SSH from home /32 & port 5001 (open to world)
-# egress allows all
+# Security Group: SSH from home /32 & port 5001
+# egress allow all
 resource "aws_security_group" "builder_sg" {
   name        = "builder-sg"
   description = "SSH from home and 5001 open to world"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
-    description = "SSH from home"
+    description = "Home SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -63,7 +28,7 @@ resource "aws_security_group" "builder_sg" {
   }
 
   ingress {
-    description = "app port open to world"
+    description = "App port open to world"
     from_port   = var.open_world_port
     to_port     = var.open_world_port
     protocol    = "tcp"
@@ -71,7 +36,7 @@ resource "aws_security_group" "builder_sg" {
   }
 
   egress {
-    description = "all egress"
+    description = "All egress"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -83,9 +48,9 @@ resource "aws_security_group" "builder_sg" {
   }
 }
 
-# EC2 instance > default VPC
+# EC2 instance in VPC
 # ensure public IP
-# 20GB gp3
+# use 20GB gp3
 # Name=builder
 resource "aws_instance" "builder" {
   ami                         = data.aws_ami.ubuntu_lts.id
