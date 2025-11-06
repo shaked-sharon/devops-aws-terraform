@@ -805,3 +805,19 @@ Merged PR: dev > main branch
 
 === Thu Nov  6 13:16:54 UTC 2025 ===
 $ git add terraform/log.sh terraform/main.tf terraform/session_log.txt
+[done]
+
+=== Thu Nov  6 13:17:11 UTC 2025 ===
+$ git commit -m 'save local changes before switching branches'
+[feature/tf-setup 260021e] save local changes before switching branches
+ 3 files changed, 719 insertions(+), 9 deletions(-)
+[done]
+
+=== Thu Nov  6 13:17:21 UTC 2025 ===
+$ git push
+To https://github.com/shaked-sharon/devops-aws-terraform.git
+   50f9d04..260021e  feature/tf-setup -> feature/tf-setup
+[done]
+
+=== Thu Nov  6 13:18:19 UTC 2025 ===
+$ git add terraform/session_log.txt
