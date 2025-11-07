@@ -108,22 +108,6 @@ terraform destroy -auto-approve
 
 ---
 
-## Clean-Up and Verification
-
-- Verify destroy success:
-  ```
-  terraform output
-  ```
-  Expected → “No outputs found”
-
-- Confirm in AWS Console (region = Frankfurt):  
-  EC2 → Instances → none should remain
-
-- Commit and push final `session_log.txt`:
-  ```
-
----
-
 ## Submission
 
 Submission of GitHub repo link:  
