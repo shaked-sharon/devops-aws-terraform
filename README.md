@@ -95,14 +95,14 @@ export AWS_DEFAULT_REGION="eu-central-1"
    OR
    curl -s ipv4.icanhazip.com _(if previous command returns IPv6)_
    ```
-   _i.e._ IPv4 format: `104.28.60.68/32`
+   _i.e._ IPv4 format: `xxx.xx.xx.68/32`
 4. **Edit terraform.tfvars**
    ```
    region           = "eu-central-1"
    instance_type    = "t3.medium"
    key_name         = "builder-key"
    private_key_path = "./builder_key.pem"
-   home_cidr        = "104.28.60.68/32"
+   home_cidr = "YOUR_IPV4_ADDRESS/32"
    open_world_port  = 5001
    name_prefix      = "builder"
    ```
@@ -198,11 +198,11 @@ _**This project will evolve into a full cloud-native delivery pipeline.**_
 ## Author
 
 **Sharon Shaked (shaked-sharon)**  
-- Email: sharon.shaked@icloud.com / sharon.shaked24@gmail.com  
-- GitHub: [https://github.com/shaked-sharon](https://github.com/shaked-sharon)
+- **Email:** sharon.shaked@icloud.com / sharon.shaked24@gmail.com  
+- **GitHub:** https://github.com/shaked-sharon
 
 ---
 
 ## License
 
-This project is for **educational purposes only** and is part of the **John Bryce DevOps Program** final project.
+This project is for **educational purposes only** & is part of a **DevOps Program** final project
