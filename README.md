@@ -1,4 +1,4 @@
-# DevOps Final Project – Part I: AWS Terraform Provisioning
+# DevOps Final Project – Part I | AWS-Terraform Provisioning
 
 ## Project Overview
 
