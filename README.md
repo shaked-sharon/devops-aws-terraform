@@ -83,7 +83,7 @@ export AWS_DEFAULT_REGION="eu-central-1"
 
 1. **Go to terraform folder path**
    ```
-   cd terraform <_or relevant path to terraform folder_>
+   cd terraform (or relevant path to terraform folder)
    ```
 2. **Generate SSH key pair (private local key ONLY)**
    ```
