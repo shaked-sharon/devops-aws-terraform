@@ -91,11 +91,11 @@ export AWS_DEFAULT_REGION="eu-central-1"
    ```
 3. **Find IPv4 & append /32**
    ```
-   curl -4 ifconfig.me _(ensure IPv4 not IPv6)_
+   curl -4 ifconfig.me (ensure IPv4 not IPv6)
    OR
-   curl -s ipv4.icanhazip.com _(if previous command returns IPv6)_
+   curl -s ipv4.icanhazip.com (if previous command returns IPv6)
    ```
-   _i.e._ IPv4 format: `xxx.xx.xx.68/32`
+   _i.e._ **IPv4 format:** `xxx.xx.xx.68/32`
 4. **Edit terraform.tfvars**
    ```
    region           = "eu-central-1"
