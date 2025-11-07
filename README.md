@@ -1,127 +1,142 @@
-# DevOps AWS — Terraform Mini Project
+# DevOps AWS — Terraform Practical Exam (Top-Level Configuration)
 
-This repo is a small, focused Terraform setup that creates:
-- a **Security Group** (inbound **SSH 22** + **app 5001**, egress anywhere),
-- one **EC2** instance (**t3.micro**, **Ubuntu 22.04**, **20 GB gp3** root volume),
-- and (optionally) stores **remote Terraform state** in **S3**.
+This is the first part of the DevOps Final (Part I). It was changed from the earlier mini-project to a single top-level Terraform configuration.  
+It provisions & manages 1 **Ubuntu EC2 instance** in my **personal AWS account** (no S3 backend).  
+All Terraform state remains **local** inside `terraform/` folder.
 
-**Region:** `us-east-2`  
+**Region:** `eu-central-1` (Frankfurt)  
+**Instance type:** `t3.medium`  
 **Default tags:** `env=devops`, `owner=Sharon`
 
->SECURITY NOTE: opening ports **22** and **5001** to `0.0.0.0/0` is OK for class/demo NOT for production.
+> SECURITY NOTE: Port **22** (SSH) is open only to current home IPv4/32.  
+> Port **5001** is open to `0.0.0.0/0` for testing ONLY!! Do not use in prod
 
 ---
 
 ## Folder Layout
 
-    terraform/
-      aws/
-        dev/                  # Environment: backend + provider + root module
-          providers.tf
-          main.tf
-          data.tf
-        modules/              # Reusable modules
-          security_group/
-            main.tf
-            variables.tf
-            outputs.tf
-          ec2/
-            main.tf
-            variables.tf
-            outputs.tf
-            data.tf
-    logs/
-      .gitkeep                # Keeps the folder in git; real runs write provisioning.log
-    .gitignore
-    README.md
-    requirements.txt          # (not used by Terraform; kept for consistency)
+```
+terraform/
+  provider.tf          # AWS provider & default tags
+  variables.tf         # region, instance_type, key, CIDRs, etc
+  data.tf              # AMI / default VPC / public subnets
+  main.tf              # key pair, SG, EC2 resources
+  outputs.tf           # prints public_ip, SG ID, local key path
+  terraform.tfvars     # personal values (region, CIDR, key paths)
+  log.sh               # logfile to reflect in file: session_log.txt
+  session_log.txt      # execution of command/output log
+  README.md            # about file (you're currently reading it)
+python/
+  builder_client.py    # placeholder from previous module to be updated in later parts of rolling project
+  README.md
+.github/
+  pull_request_template.md
+.gitignore
+PROJECT_PROMPT.md
+```
 
 ---
 
 ## Prerequisites
 
-1) **Terraform** installed (Mac: Homebrew, Windows: Chocolatey, Linux: apt).  
-2) **AWS CLI** configured with credentials and default region **us-east-2**.  
-   - You can export env vars per terminal session:
+1. **Terraform CLI** installed.  
+2. **AWS IAM access keys** with EC2 + VPC read permissions.  
+3. **macOS Terminal (zsh)** or any Unix-style shell.  
+4. No AWS CLI required; credentials are exported manually each session.
 
-        export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
-        export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
-        export AWS_DEFAULT_REGION="us-east-2"
+Export environment variables before running Terraform:
 
-3) **S3 bucket for remote state** (only if you want _remote_ backend):
-   - Bucket name used here: **shaked-s3-devops** (you can change it in `providers.tf`).
-   - If the bucket doesn’t exist, create and enable versioning:
-
-        aws s3 mb s3://shaked-s3-devops --region us-east-2
-        aws s3api put-bucket-versioning --bucket shaked-s3-devops --versioning-configuration Status=Enabled
-
-4) **SSH key** at `~/.ssh/devops-key` (private) and `~/.ssh/devops-key.pub` (public).  
-   - Create one if needed:
-
-        ssh-keygen -t rsa -b 4096 -f ~/.ssh/devops-key -N ""
+```
+export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
+export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
+export AWS_DEFAULT_REGION="eu-central-1"
+```
 
 ---
 
-## Clean Up (avoid charges)
+## Workflow
 
-When you’re done, destroy the resources and log it:
+```
+# 1) move into terraform folder
+cd terraform
 
-    terraform destroy
-    terraform destroy -auto-approve
+# 2) generate SSH key pair (private key local ONLY)
+ssh-keygen -t rsa -b 4096 -m PEM -f builder_key.pem -N ""
 
----
+# 3) find IPv4 & append to add /32 at end of ipv4
+curl -4 ifconfig.me
+# example of ipv4 with appended /32: 104.28.60.68/32
 
-## Module Documentation (terraform-docs)
+# 4) edit of terraform.tfvars
+region           = "eu-central-1"
+instance_type    = "t3.medium"
+key_name         = "builder-key"
+private_key_path = "./builder_key.pem"
+home_cidr        = "104.28.60.68/32"
+open_world_port  = 5001
+name_prefix      = "builder"
 
-Generate Registry-style docs for each module. First install the tool (Mac):
+# 5) run Terraform
+./log.sh "terraform init"
+./log.sh "terraform plan -out plan.out"
+./log.sh "terraform apply -auto-approve plan.out"
+./log.sh "terraform output"
 
-    brew install terraform-docs
+# expected outputs
+public_ip              = "x.x.x.x"
+security_group_id      = "sg-xxxxxxxxxxxx"
+private_key_local_path = "./builder_key.pem"
 
-Then run inside each module:
+# 6) SSH into instance
+ssh -i builder_key.pem ubuntu@<public_ip>
 
-    cd terraform/aws/modules/security_group
-    terraform-docs markdown . > README.md
+# 7) exit SSH session when verified
+exit
 
-    cd ../ec2
-    terraform-docs markdown . > README.md
-
-These `README.md` files live next to the modules and describe inputs/outputs and usage.
+# 8) destroy resources when finished
+./log.sh "terraform destroy -auto-approve"
+```
 
 ---
 
 ## Notes & Defaults
 
-- **Backend (providers.tf):** configured for S3 bucket `shaked-s3-devops` in `us-east-2` with a key path under your name (adjust if needed).
-- **AMI:** Ubuntu 22.04 LTS is selected via data source in the EC2 module.
-- **Instance type:** `t3.micro` (fits the lab; change in `terraform/aws/modules/ec2/variables.tf` if needed).
-- **Root volume:** `20GB`, `gp3`, `delete_on_termination = true`.
-- **VPC/Subnet:** The environment uses your **default VPC** and first subnet found in `us-east-2` (see `terraform/aws/dev/data.tf`). If your account has no default VPC, replace with data-sourced or explicit VPC/Subnet IDs.
-- **Open ports:** 22 (SSH) and 5001 (app test). Edit the `allowed_cidrs` variable in the SG module to restrict access.
-- **Formatting:** run `terraform fmt -recursive` before committing, to make the code look tidy.
+- **AMI:** Latest Canonical Ubuntu LTS (`owner = 099720109477`), most_recent = true.  
+- **Root block device:** 20 GB, gp3.  
+- **Networking:** Default VPC, first public subnet in eu-central-1 discovered automatically.  
+- **Backend:** Local state only (`terraform.tfstate` under `terraform/`).  
+- **Tags:** Applied via provider default_tags (env = devops, owner = Sharon) & Name = builder.  
+- **Pull Requests:** feature > dev > main workflow recorded in session log
 
 ---
 
-## Typical Workflow
+## Clean-Up and Verification
 
-    # 0) one-time: create S3 bucket + versioning (if using remote state)
-    aws s3 mb s3://shaked-s3-devops --region us-east-2
-    aws s3api put-bucket-versioning --bucket shaked-s3-devops --versioning-configuration Status=Enabled
+- Verify destroy success:
+  ```
+  ./log.sh "terraform output"
+  ```
+  Expected → “No outputs found.”
 
-    # 1) export AWS creds (new terminal sessions)
-    export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
-    export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
-    export AWS_DEFAULT_REGION="us-east-2"
+- Confirm in AWS Console (region = Frankfurt):  
+  EC2 → Instances → none should remain.
 
-    # 2) run from env folder 
-    cd terraform/aws/dev
-    terraform init
-    terraform plan
-    terraform apply -auto-approve
-    terraform output
+- Commit and push final `session_log.txt`:
+  ```
+  ./log.sh "git add terraform/session_log.txt"
+  ./log.sh "git commit -m 'final destroy logged'"
+  ./log.sh "git push"
+  ```
 
-    # 3) (optional) SSH to the instance
-    ssh -i ~/.ssh/devops-key ubuntu@$(terraform output -raw public_ip)
+---
 
-    # 4) destroy when done
-    terraform destroy -auto-approve
+## Submission
 
+Submission of GitHub repo link:  
+`https://github.com/shaked-sharon/devops-aws-terraform`
+
+Main branch includes:
+- full top-level Terraform configuration,
+- complete session logs,
+- PR merges recorded,
+- EC2 verified and destroyed successfully.
