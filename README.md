@@ -1,15 +1,16 @@
 # DevOps | Final Project | AWS — Terraform | Part I
 
-This is the first part of the DevOps Final Project (Part I). It replaces the earlier mini-project with a single top-level Terraform configuration.  
-It provisions and manages one **Ubuntu EC2 instance** in my **personal AWS account** (no S3 backend).  
-All Terraform state remains **local** inside the `terraform/` folder.
+This is the first part of the DevOps Final Project (Part I)
+It has changed the initial project submission using 1 top-level Terraform config 
+It provisions & manages 1 **Ubuntu EC2 instance** using my personal **AWS account** (no S3 used)  
+All Terraform state remains _local_ > **terraform/** folder
 
 **Region:** `eu-central-1` (Frankfurt)  
 **Instance type:** `t3.medium`  
 **Default tags:** `env=devops`, `owner=Sharon`
 
-> SECURITY NOTE: Port **22** (SSH) is open only to the current home IPv4/32.  
-> Port **5001** is open to `0.0.0.0/0` for testing only—never use this in production.
+> **SECURITY NOTE:** Port **22** (SSH) - Currenly open only to personal/home IPv4/32 
+> **Port 5001**: Open to `0.0.0.0/0` **NOTE:** For testing/student project use **ONLY!!** _Never_ use this in prod!!
 
 ---
 
@@ -18,37 +19,33 @@ All Terraform state remains **local** inside the `terraform/` folder.
 ```
 terraform/
   provider.tf          # AWS provider & default tags
-  variables.tf         # region, instance_type, key, CIDRs, etc
+  variables.tf         # region, instance_type, key, CIDRs
   data.tf              # AMI / default VPC / public subnets
   main.tf              # key pair, SG, EC2 resources
   outputs.tf           # prints public_ip, SG ID, local key path
-  terraform.tfvars     # personal values (region, CIDR, key paths)
-  log.sh               # logger script writing to session_log.txt
-  session_log.txt      # command and output log
-  README.md            # this file
+  terraform.tfvars     # personal values > region, CIDR, key paths
+  log.sh               # script to log > session_log.txt
+  session_log.txt      # command & output logfile
+  README.md            # this file you're currently reading :)
 python/
-  builder_client.py    # placeholder for later rolling project phases
+  builder_client.py    # placeholder for later project parts
   README.md
-.github/
-  pull_request_template.md
 .gitignore
 ```
-
 ---
 
-## Prerequisites
+## Prereqs
 
 1. **Terraform CLI** installed  
-2. **AWS IAM access keys** with EC2 and VPC permissions  
+2. **AWS IAM access keys** EC2 & VPC permissions  
 
-Export credentials before running Terraform:
+Export credentials _before_ running/executing Terraform:
 
 ```
 export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
 export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
 export AWS_DEFAULT_REGION="eu-central-1"
 ```
-
 ---
 
 ## Workflow
@@ -79,35 +76,35 @@ terraform plan
 terraform apply -auto-approve
 terraform output
 
-# expected outputs
+# 6) expected outputs
 public_ip              = "x.x.x.x"
 security_group_id      = "sg-xxxxxxxxxxxx"
 private_key_local_path = "./builder_key.pem"
 
 # 6) SSH into instance
-ssh -i builder_key.pem ubuntu@<public_ip>
+ssh -i builder_key.pem ubuntu@<_public_ip_>
 
-# 7) exit SSH session when verified
+# 7) exit SSH session after verification complete
 exit
 
-# 8) destroy resources when finished
+# 8) destroy resources when done so no aws charges incurred
 terraform destroy -auto-approve
 ```
 
 ---
 
-## Notes & Defaults
+## Notes / Defaults
 
 - **AMI:** Latest Canonical Ubuntu LTS (`owner = 099720109477`)  
 - **Root block device:** 20 GB, gp3  
-- **Networking:** Default VPC, first public subnet in eu-central-1  
+- **Networking:** Default VPC, public subnet > eu-central-1  
 - **Backend:** Local state (`terraform.tfstate` under `terraform/`)  
-- **Tags:** default_tags (env = devops, owner = Sharon) + Name = builder  
-- **Pull Requests:** feature → dev → main workflow recorded in session_log.txt  
+- **Tags:** default_tags: env = devops, owner = Sharon / Name = builder  
+- **Pull Requests:** feature > dev > main branches  
 
 ---
 
-## Submission
+## Submission for Part I
 
 GitHub repo link:  
 `https://github.com/shaked-sharon/devops-aws-terraform`
