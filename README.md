@@ -1,15 +1,15 @@
 # DevOps | Final Project | AWS — Terraform | Part I
 
-This is the first part of the DevOps Final (Part I). It was changed from the earlier mini-project to a single top-level Terraform configuration.  
-It provisions & manages 1 **Ubuntu EC2 instance** in my **personal AWS account** (no S3 backend).  
-All Terraform state remains **local** inside `terraform/` folder.
+This is the first part of the DevOps Final Project (Part I). It replaces the earlier mini-project with a single top-level Terraform configuration.  
+It provisions and manages one **Ubuntu EC2 instance** in my **personal AWS account** (no S3 backend).  
+All Terraform state remains **local** inside the `terraform/` folder.
 
 **Region:** `eu-central-1` (Frankfurt)  
 **Instance type:** `t3.medium`  
 **Default tags:** `env=devops`, `owner=Sharon`
 
-> SECURITY NOTE: Port **22** (SSH) is open only to current home IPv4/32.  
-> Port **5001** is open to `0.0.0.0/0` for testing ONLY!! Do not use in prod
+> SECURITY NOTE: Port **22** (SSH) is open only to the current home IPv4/32.  
+> Port **5001** is open to `0.0.0.0/0` for testing only—never use this in production.
 
 ---
 
@@ -23,26 +23,25 @@ terraform/
   main.tf              # key pair, SG, EC2 resources
   outputs.tf           # prints public_ip, SG ID, local key path
   terraform.tfvars     # personal values (region, CIDR, key paths)
-  log.sh               # logfile to reflect in file: session_log.txt
-  session_log.txt      # execution of command/output log
-  README.md            # about file (you're currently reading it)
+  log.sh               # logger script writing to session_log.txt
+  session_log.txt      # command and output log
+  README.md            # this file
 python/
-  builder_client.py    # placeholder from previous module to be updated in later parts of rolling project
+  builder_client.py    # placeholder for later rolling project phases
   README.md
 .github/
   pull_request_template.md
 .gitignore
-PROJECT_PROMPT.md
 ```
 
 ---
 
 ## Prerequisites
 
-1. **Terraform CLI** installed.  
-2. **AWS IAM access keys** with EC2 & VPC read permissions.  
+1. **Terraform CLI** installed  
+2. **AWS IAM access keys** with EC2 and VPC permissions  
 
-Export environment variables before running Terraform:
+Export credentials before running Terraform:
 
 ```
 export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
@@ -61,11 +60,11 @@ cd terraform
 # 2) generate SSH key pair (private key local ONLY)
 ssh-keygen -t rsa -b 4096 -m PEM -f builder_key.pem -N ""
 
-# 3) find IPv4 & append to add /32 at end of ipv4
+# 3) find IPv4 & append /32
 curl -4 ifconfig.me
-# example of ipv4 with appended /32: 104.28.60.68/32
+# example result: 104.28.60.68/32
 
-# 4) edit of terraform.tfvars
+# 4) edit terraform.tfvars
 region           = "eu-central-1"
 instance_type    = "t3.medium"
 key_name         = "builder-key"
@@ -91,60 +90,62 @@ ssh -i builder_key.pem ubuntu@<public_ip>
 # 7) exit SSH session when verified
 exit
 
-# 8) destroy resources when finished so no charges are incurred in AWS for instance running
+# 8) destroy resources when finished
 terraform destroy -auto-approve
 ```
+
 ---
 
 ## Notes & Defaults
 
-- **AMI:** Latest Canonical Ubuntu LTS (`owner = 099720109477`), most_recent = true
-- **Root block device:** 20 GB, gp3
-- **Networking:** Default VPC, public subnet in eu-central-1
-- **Backend:** Local state only (`terraform.tfstate` under `terraform/`)
-- **Tags:** default_tags (env = devops, owner = Sharon) & Name = builder
-- **Pull Requests:** feature > dev > main workflow (logs recorded in session.log using log.sh script)
+- **AMI:** Latest Canonical Ubuntu LTS (`owner = 099720109477`)  
+- **Root block device:** 20 GB, gp3  
+- **Networking:** Default VPC, first public subnet in eu-central-1  
+- **Backend:** Local state (`terraform.tfstate` under `terraform/`)  
+- **Tags:** default_tags (env = devops, owner = Sharon) + Name = builder  
+- **Pull Requests:** feature → dev → main workflow recorded in session_log.txt  
 
 ---
 
 ## Submission
 
-Submission of GitHub repo link:  
+GitHub repo link:  
 `https://github.com/shaked-sharon/devops-aws-terraform`
 
-Main branch includes:
-- full top-level Terraform configuration
-- complete session logs
-- PR merges recorded
-- EC2 verified & destroyed successfully
+Main branch includes:  
+- top-level Terraform configuration  
+- complete session logs  
+- PR merges recorded  
+- EC2 instance verified and destroyed successfully  
 
-### Future Additions to DevOps Final Project:
+---
 
-**Part I | AWS - Terraform Infra Provision**
-- DevOps Final Project will expand on this current setup to a full CI/CD pipeline
+### Future Additions to DevOps Final Project
+
+**Part I | AWS - Terraform Infrastructure**  
+- Foundation for a complete CI/CD pipeline  
 
 **Part II – Docker & Containerization**  
-- Build multi-stage Dockerfile > Python Flask AWS-monitoring app
-- Run container > EC2 
+- Build multi-stage Dockerfile for Flask AWS-monitoring app  
+- Run container on EC2  
 
 **Part III – Flask Debug & AWS Integration**  
-- Flask app to list EC2, VPCs, Load Balancers, AMIs  
-- Docker image
+- Flask app lists EC2, VPCs, Load Balancers, AMIs  
+- Update and verify Docker image  
 
 **Part IV – CI/CD Pipelines | Jenkins / Azure**  
-- Jenkins & Azure DevOps pipelines > Docker  
-- Pipeline credentials
+- Jenkins and Azure DevOps pipelines for Docker builds  
+- Secure credentials and automated stages  
 
 **Part V – Kubernetes & Helm**  
-- Flask app > Helm chart  
-- Kubernetes  
-- yaml
+- Package Flask app as Helm chart  
+- Deploy to Kubernetes using values.yaml  
 
-**Final Goal & Execution**  
-Achieve full, automated DevOps workflow > following:  
-- Provision infra > Terraform 
-- Docker containers  
-- CI/CD using Jenkins / Azure  
-- Kubernetes & Helm 
+**Final Goal**  
+A complete automated DevOps workflow that:  
+- Provisions infrastructure with Terraform  
+- Containerizes apps using Docker  
+- Automates CI/CD with Jenkins and Azure DevOps  
+- Deploys via Kubernetes and Helm  
 
-_**This will project will evolve into a complete cloud-native delivery pipeline**_
+_**This project will evolve into a full cloud-native delivery pipeline.**_
