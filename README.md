@@ -94,17 +94,16 @@ exit
 # 8) destroy resources when finished so no charges are incurred in AWS for instance running
 terraform destroy -auto-approve
 ```
-
 ---
 
 ## Notes & Defaults
 
-- **AMI:** Latest Canonical Ubuntu LTS (`owner = 099720109477`), most_recent = true.  
-- **Root block device:** 20 GB, gp3.  
-- **Networking:** Default VPC, first public subnet in eu-central-1 discovered automatically.  
-- **Backend:** Local state only (`terraform.tfstate` under `terraform/`).  
-- **Tags:** Applied via provider default_tags (env = devops, owner = Sharon) & Name = builder.  
-- **Pull Requests:** feature > dev > main workflow recorded in session log
+- **AMI:** Latest Canonical Ubuntu LTS (`owner = 099720109477`), most_recent = true
+- **Root block device:** 20 GB, gp3
+- **Networking:** Default VPC, public subnet in eu-central-1
+- **Backend:** Local state only (`terraform.tfstate` under `terraform/`)
+- **Tags:** default_tags (env = devops, owner = Sharon) & Name = builder
+- **Pull Requests:** feature > dev > main workflow (logs recorded in session.log using log.sh script)
 
 ---
 
@@ -114,7 +113,38 @@ Submission of GitHub repo link:
 `https://github.com/shaked-sharon/devops-aws-terraform`
 
 Main branch includes:
-- full top-level Terraform configuration,
-- complete session logs,
-- PR merges recorded,
-- EC2 verified and destroyed successfully.
+- full top-level Terraform configuration
+- complete session logs
+- PR merges recorded
+- EC2 verified & destroyed successfully
+
+### Future Additions to DevOps Final Project:
+
+**Part I | AWS - Terraform Infra Provision**
+- DevOps Final Project will expand on this current setup to a full CI/CD pipeline
+
+**Part II – Docker & Containerization**  
+- Build multi-stage Dockerfile > Python Flask AWS-monitoring app
+- Run container > EC2 
+
+**Part III – Flask Debug & AWS Integration**  
+- Flask app to list EC2, VPCs, Load Balancers, AMIs  
+- Docker image
+
+**Part IV – CI/CD Pipelines | Jenkins / Azure**  
+- Jenkins & Azure DevOps pipelines > Docker  
+- Pipeline credentials
+
+**Part V – Kubernetes & Helm**  
+- Flask app > Helm chart  
+- Kubernetes  
+- yaml
+
+**Final Goal & Execution**  
+Achieve full, automated DevOps workflow > following:  
+- Provision infra > Terraform 
+- Docker containers  
+- CI/CD using Jenkins / Azure  
+- Kubernetes & Helm 
+
+_**This will project will evolve into a complete cloud-native delivery pipeline**_
