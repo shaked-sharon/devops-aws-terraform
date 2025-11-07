@@ -1,4 +1,4 @@
-# DevOps AWS — Terraform Practical Exam (Top-Level Configuration)
+# DevOps | Final Exam | AWS — Terraform Configuration
 
 This is the first part of the DevOps Final (Part I). It was changed from the earlier mini-project to a single top-level Terraform configuration.  
 It provisions & manages 1 **Ubuntu EC2 instance** in my **personal AWS account** (no S3 backend).  
