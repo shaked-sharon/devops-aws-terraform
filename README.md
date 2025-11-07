@@ -40,9 +40,7 @@ PROJECT_PROMPT.md
 ## Prerequisites
 
 1. **Terraform CLI** installed.  
-2. **AWS IAM access keys** with EC2 + VPC read permissions.  
-3. **macOS Terminal (zsh)** or any Unix-style shell.  
-4. No AWS CLI required; credentials are exported manually each session.
+2. **AWS IAM access keys** with EC2 & VPC read permissions.  
 
 Export environment variables before running Terraform:
 
@@ -77,10 +75,10 @@ open_world_port  = 5001
 name_prefix      = "builder"
 
 # 5) run Terraform
-./log.sh "terraform init"
-./log.sh "terraform plan -out plan.out"
-./log.sh "terraform apply -auto-approve plan.out"
-./log.sh "terraform output"
+terraform init
+terraform plan
+terraform apply -auto-approve
+terraform output
 
 # expected outputs
 public_ip              = "x.x.x.x"
@@ -93,8 +91,8 @@ ssh -i builder_key.pem ubuntu@<public_ip>
 # 7) exit SSH session when verified
 exit
 
-# 8) destroy resources when finished
-./log.sh "terraform destroy -auto-approve"
+# 8) destroy resources when finished so no charges are incurred in AWS for instance running
+terraform destroy -auto-approve
 ```
 
 ---
@@ -114,18 +112,14 @@ exit
 
 - Verify destroy success:
   ```
-  ./log.sh "terraform output"
+  terraform output
   ```
-  Expected → “No outputs found.”
+  Expected → “No outputs found”
 
 - Confirm in AWS Console (region = Frankfurt):  
-  EC2 → Instances → none should remain.
+  EC2 → Instances → none should remain
 
 - Commit and push final `session_log.txt`:
-  ```
-  ./log.sh "git add terraform/session_log.txt"
-  ./log.sh "git commit -m 'final destroy logged'"
-  ./log.sh "git push"
   ```
 
 ---
