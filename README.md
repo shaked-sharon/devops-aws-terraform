@@ -4,7 +4,7 @@ DevOps Final Project – Part I: AWS Terraform Provisioning
 ## Project Overview
 
 This is the first part of the DevOps Final Project (Part I)  
-The initial project submission was changed to use a single top-level Terraform configuration format.
+The initial project submission was changed to use a single top-level Terraform configuration format.  
 It provisions & manages one **Ubuntu EC2 instance** using my **AWS account** (no S3 used this time)  
 All Terraform state remains _local_ in the **terraform/** folder
 
@@ -20,47 +20,47 @@ All Terraform state remains _local_ in the **terraform/** folder
 ## What This Project Does
 
 1. **Infrastructure Provisioning**
-   - Creates & manages single EC2 instance using Terraform
-   - Configures AWS Security Group rules > allow SSH (22) from home IPv4/32 & TCP (5001) from 0.0.0.0/0
-   - Uses default tags: env=devops, owner=Sharon, Name=builder > Tag AWS resources
-   - Uses local Terraform state files stored > terraform folder
+   - Creates & manages single EC2 instance using Terraform  
+   - Configures AWS Security Group rules > allow SSH (22) from home IPv4/32 & TCP (5001) from 0.0.0.0/0  
+   - Uses default tags: env=devops, owner=Sharon, Name=builder > Tag AWS resources  
+   - Uses local Terraform state files stored > terraform folder  
 
 2. **Configuration Management**
-   - Retrieves latest Canonical Ubuntu LTS AMI (`owner = 099720109477`)
-   - Detects default VPC & public subnets (eu-central-1)
-   - Defines region, instance type, & CIDR > `terraform.tfvars`
+   - Retrieves latest Canonical Ubuntu LTS AMI (`owner = 099720109477`)  
+   - Detects default VPC & public subnets (eu-central-1)  
+   - Defines region, instance type, & CIDR > `terraform.tfvars`  
 
 3. **Automation & Logs**
-   - Logs Terraform commands & outputs using `log.sh` script (output in `session_log.txt`).
-   - Demonstrates Git branching workflow: feature > dev > main
+   - Logs Terraform commands & outputs using `log.sh` script (output in `session_log.txt`)  
+   - Demonstrates Git branching workflow: feature > dev > main  
 
 4. **Validation & Cleanup**
-   - Builds EC2 instance
-   - Verifies SSH connectivity
-   - Destroy once complete to avoid AWS charges
+   - Builds EC2 instance  
+   - Verifies SSH connectivity  
+   - Destroy once complete to avoid AWS charges  
 
 ---
 
 ## Current Implementation
 
-- Full Terraform setup (provider, variables, data, main, outputs, tfvars)
-- EC2 instance: Ubuntu 22.04 LTS (Canonical), t3.medium
-- Local backend (no S3)
-- 20 GB gp3 root volume
-- Security Group: port 22 open to home IPv4/32; port 5001 open to 0.0.0.0/0
-- Tags used: env=devops, owner=Sharon, Name=builder
-- Git workflow: feature > dev > main
-- SSH connectivity verified
-- Terraform destroy executed successfully
+- Full Terraform setup (provider, variables, data, main, outputs, tfvars)  
+- EC2 instance: Ubuntu 22.04 LTS (Canonical), t3.medium  
+- Local backend (no S3)  
+- 20 GB gp3 root volume  
+- Security Group: port 22 open to home IPv4/32; port 5001 open to 0.0.0.0/0  
+- Tags used: env=devops, owner=Sharon, Name=builder  
+- Git workflow: feature > dev > main  
+- SSH connectivity verified  
+- Terraform destroy executed successfully  
 
 ---
 
 ## Future Components to be Added
 
-- **Web App:** To be added in future project addition
-- **Load Balancer:** Future component for scaling project
-- **Docker, Jenkins, CI/CD Integration:** To be integrated in future part of project
-- **Kubernetes & Helm:** To be added in future for autoscaling or monitoring 
+- **Web App:** To be added in future project addition  
+- **Load Balancer:** Future component for scaling project  
+- **Docker, Jenkins, CI/CD Integration:** To be integrated in future part of project  
+- **Kubernetes & Helm:** To be added in future for autoscaling or monitoring  
 
 ---
 
@@ -69,9 +69,7 @@ All Terraform state remains _local_ in the **terraform/** folder
 ### Prereqs
 1. **Terraform CLI** installed  
 2. **AWS IAM access keys** EC2 & VPC permissions  
-2. **AWS IAM access keys** EC2 & VPC permissions  
 
-Export credentials _before_ running/executing Terraform:
 Export credentials _before_ running/executing Terraform:
 
 ```
@@ -79,6 +77,7 @@ export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
 export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
 export AWS_DEFAULT_REGION="eu-central-1"
 ```
+
 ---
 
 ## How to Execute:
@@ -149,7 +148,7 @@ export AWS_DEFAULT_REGION="eu-central-1"
 - **python/builder_client.py** – placeholder for later project parts  
 - **python/README.md** – marks Python folder ungraded for Part I  
 - **.gitignore** – ignores keys, secrets, Terraform cache files  
-- **README.md** – this file you’re currently reading :)
+- **README.md** – this file you’re currently reading :)  
 
 ---
 
@@ -159,7 +158,7 @@ This project demonstrates:
 - Terraform fundamentals & AWS provisioning  
 - Infrastructure-as-Code using real cloud resources  
 - Secure credential handling via environment variables  
-- Git branching & pull request (PR) workflow (mimics real world execution style)
+- Git branching & pull request (PR) workflow (mimics real world execution style)  
 - Logging & reproducibility using Bash scripts  
 - Verification via SSH access & teardown practice  
 
