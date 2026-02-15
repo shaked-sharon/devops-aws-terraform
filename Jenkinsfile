@@ -1,3 +1,4 @@
+// use of pipeline structure & format from Yaniv's repo
 pipeline {
     agent any
 
