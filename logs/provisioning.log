@@ -328,4 +328,5 @@ Changes to Outputs:
 [0m[1mmodule.security_group.aws_security_group.this: Destruction complete after 1s[0m
 [0m[1m[32m
 Destroy complete! Resources: 6 destroyed.
-[0m
+[0m===== Sun Feb 15 16:37:40 IST 2026 | docker build =====
+Built image 'builder-app' from Dockerfile. Test run output: app_name=builder app_port=5001
