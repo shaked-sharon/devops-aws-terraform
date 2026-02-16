@@ -15,6 +15,23 @@ pipeline {
             }
         }
 
+        // MOCK: linting & security scans running in parallel
+        // placeholder stages > tools not installed on this jenkins instance
+        stage('Code Quality') {
+            parallel {
+                stage('Lint') {
+                    steps {
+                        echo 'MOCK: linting step > would run pylint or flake8 on python code'
+                    }
+                }
+                stage('Security Scan') {
+                    steps {
+                        echo 'MOCK: security scan > would run trivy or bandit to check for vulnerabilities'
+                    }
+                }
+            }
+        }
+
         // build docker image using dockerfile
         stage('Build') {
             steps {
