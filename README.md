@@ -195,6 +195,7 @@ export AWS_DEFAULT_REGION="eu-central-1"
 - **python/README.md** – marks Python folder ungraded for Part I  
 - **Dockerfile** – recipe to package builder_client.py into a Docker container  
 - **Jenkinsfile** – CI/CD pipeline: Clone > Build > Run > Push to Docker Hub  
+- **Final Project Screenshots 12022026.docx** – screenshots of Jenkins dashboard, console output, & Docker Hub  
 - **.gitignore** – ignores keys, secrets, Terraform cache files  
 - **README.md** – this file you’re currently reading :)  
 
