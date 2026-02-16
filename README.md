@@ -1,4 +1,4 @@
-# DevOps Final Project | AWS-Terraform | Part I
+# DevOps | Final Exam | AWS — Terraform Configuration
 
 ## Project Overview
 

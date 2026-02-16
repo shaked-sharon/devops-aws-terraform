@@ -1,6 +1,6 @@
-# Get public key path > local private key  (./builder_key.pem >./builder_key.pub)
+# Public key path > AWS key pair
 locals {
-  public_key_path = regexreplace(var.private_key_path, "\\.pem$", ".pub")
+  public_key_path = "./builder_key.pem.pub"
 }
 
 # locally generated public key (.pub) > AWS key pair
@@ -24,7 +24,7 @@ resource "aws_security_group" "builder_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.home_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
