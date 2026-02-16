@@ -2,17 +2,16 @@
 
 ## Project Overview
 
-This is the first part of the DevOps Final Project (Part I)  
-The initial project submission was changed to use a single top-level Terraform configuration format.  
-It provisions & manages one **Ubuntu EC2 instance** using my **AWS account** (no S3 used this time)  
-All Terraform state remains _local_ in the **terraform/** folder
+DevOps Final Project — provisions AWS infrastructure using Terraform, containerizes a Python app with Docker, and automates the build/push workflow using Jenkins CI/CD pipeline running on EC2  
+All Terraform state remains _local_ in **terraform/** folder
 
 **Region:** `eu-central-1` (Frankfurt)  
 **Instance type:** `t3.medium`  
 **Default tags:** `env=devops`, `owner=Sharon`
 
 > **SECURITY NOTE:** Port **22** (SSH) - Currently open only to personal/home IPv4/32  
-> **Port 5001**: Open to `0.0.0.0/0` **NOTE:** For testing/student project use **ONLY!!** _Never_ use this in prod!!
+> **Port 5001**: Open to `0.0.0.0/0` **NOTE:** For testing/student project use **ONLY!!** _Never_ use this in prod!!  
+> **Port 8080**: Jenkins UI — open to `0.0.0.0/0` **NOTE:** For testing/student project use **ONLY!!** _Never_ use this in prod!!
 
 ---
 
@@ -38,6 +37,17 @@ All Terraform state remains _local_ in the **terraform/** folder
    - Verifies SSH connectivity  
    - Destroy once complete to avoid AWS charges  
 
+5. **Docker Containerization**
+   - Packages Python app (`builder_client.py`) into a Docker image  
+   - Uses `python:3.11-slim` base image  
+   - Image pushed to Docker Hub: `sharonshaked/builder`  
+
+6. **Jenkins CI/CD Pipeline**
+   - Jenkins runs on EC2 via Docker Compose (using instructor workshop setup)  
+   - Pipeline stages: Clone > Build > Run > Push  
+   - Jenkinsfile reads from GitHub repo (`feature/docker` branch)  
+   - Docker Hub credentials stored securely in Jenkins credentials manager  
+
 ---
 
 ## Current Implementation
@@ -46,20 +56,15 @@ All Terraform state remains _local_ in the **terraform/** folder
 - EC2 instance: Ubuntu 22.04 LTS (Canonical), t3.medium  
 - Local backend (no S3)  
 - 20 GB gp3 root volume  
-- Security Group: port 22 open to home IPv4/32; port 5001 open to 0.0.0.0/0  
+- Security Group: port 22 open to home IPv4/32; port 5001 open to 0.0.0.0/0; port 8080 open to 0.0.0.0/0 for Jenkins  
 - Tags used: env=devops, owner=Sharon, Name=builder  
 - Git workflow: feature > dev > main  
 - SSH connectivity verified  
-- Terraform destroy executed successfully  
-
----
-
-## Future Components to be Added
-
-- **Web App:** To be added in future project addition  
-- **Load Balancer:** Future component for scaling project  
-- **Docker, Jenkins, CI/CD Integration:** To be integrated in future part of project  
-- **Kubernetes & Helm:** To be added in future for autoscaling or monitoring  
+- Dockerfile packages Python app into container  
+- Docker image pushed to Docker Hub (`sharonshaked/builder`)  
+- Jenkins running on EC2 via Docker Compose  
+- Jenkins pipeline: Clone > Build > Run > Push — all stages pass  
+- Docker Hub credentials managed via Jenkins credentials store  
 
 ---
 
@@ -68,6 +73,9 @@ All Terraform state remains _local_ in the **terraform/** folder
 ### Prereqs
 1. **Terraform CLI** installed  
 2. **AWS IAM access keys** EC2 & VPC permissions  
+3. **Docker** installed on EC2 instance  
+4. **Docker Hub account** with access token for Jenkins credentials  
+5. **Jenkins** running on EC2 via Docker Compose (cloned from instructor workshop repo)  
 
 Export credentials _before_ running/executing Terraform:
 
@@ -132,6 +140,44 @@ export AWS_DEFAULT_REGION="eu-central-1"
    terraform destroy -auto-approve
    ```
 
+### Docker & Jenkins Setup (on EC2)
+
+10. **SSH into EC2 & install Docker**
+    ```
+    sudo apt update
+    sudo apt install -y docker.io
+    sudo systemctl start docker
+    ```
+11. **Clone instructor Jenkins workshop repo**
+    ```
+    git clone -b jenkins-workshop --single-branch https://github.com/yanivomc/devopshift-welcome.git
+    cd devopshift-welcome/welcome
+    ```
+12. **Install Docker Compose & start Jenkins**
+    ```
+    sudo apt install -y docker-compose
+    sudo docker-compose up -d
+    ```
+13. **Access Jenkins UI**
+    ```
+    http://<EC2_PUBLIC_IP>:8080
+    Login: admin / admin1234
+    ```
+14. **Add Docker Hub credentials in Jenkins**
+    - Manage Jenkins > Credentials > Global > Add Credentials
+    - Username: Docker Hub username
+    - Password: Docker Hub access token
+    - ID: dockerhub-creds
+15. **Create pipeline job**
+    - New Item > name: builder-pipeline > Pipeline
+    - Definition: Pipeline script from SCM
+    - SCM: Git
+    - Repository URL: your GitHub repo URL
+    - Branch: */feature/docker
+    - Script Path: Jenkinsfile
+16. **Run pipeline**
+    - Click Build Now > verify all stages pass (Clone > Build > Run > Push)
+
 ---
 
 ## Files Explained
@@ -144,8 +190,11 @@ export AWS_DEFAULT_REGION="eu-central-1"
 - **terraform.tfvars** – personal values > region, CIDR, key paths  
 - **log.sh** – script for logging > session_log.txt  
 - **session_log.txt** – command & output logfile  
-- **python/builder_client.py** – placeholder for later project parts  
+- **logs/git-history.log** – saved git branch history for project defense  
+- **python/builder_client.py** – Python app that prints app name & port (packaged by Docker)  
 - **python/README.md** – marks Python folder ungraded for Part I  
+- **Dockerfile** – recipe to package builder_client.py into a Docker container  
+- **Jenkinsfile** – CI/CD pipeline: Clone > Build > Run > Push to Docker Hub  
 - **.gitignore** – ignores keys, secrets, Terraform cache files  
 - **README.md** – this file you’re currently reading :)  
 
@@ -160,38 +209,38 @@ This project demonstrates:
 - Git branching & pull request (PR) workflow (mimics real world execution style)  
 - Logging & reproducibility using Bash scripts  
 - Verification via SSH access & teardown practice  
+- Docker containerization of a Python application  
+- CI/CD pipeline automation using Jenkins  
+- Pushing Docker images to Docker Hub via Jenkins pipeline  
+- Running Jenkins as a Docker container on EC2  
 
 ---
 
-## Future Additions to DevOps Final Project
+## Project Sections Completed
 
-**Part I | AWS - Terraform Infrastructure**  
-- Foundation for a complete CI/CD pipeline  
+**Section 1 | Git Setup**  
+- Repository structure, branching workflow (feature > dev > main), tagged releases  
 
-**Part II – Docker & Containerization**  
-- Build multi-stage Dockerfile for Flask AWS-monitoring app  
-- Run container on EC2  
+**Section 2 | AWS - Terraform Infrastructure**  
+- EC2 provisioning, security groups, SSH key pair, default VPC  
 
-**Part III – Flask Debug & AWS Integration**  
-- Flask app lists EC2, VPCs, Load Balancers, AMIs  
-- Update and verify Docker image  
+**Section 3 | Docker Containerization**  
+- Dockerfile packages Python app into `python:3.11-slim` container  
+- Image built & tested locally and via Jenkins  
 
-**Part IV – CI/CD Pipelines | Jenkins / Azure**  
-- Jenkins and Azure DevOps pipelines for Docker builds  
-- Secure credentials and automated stages  
+**Section 5 | Jenkins CI/CD Pipeline**  
+- Jenkins runs on EC2 via Docker Compose (workshop setup from instructor repo)  
+- Pipeline stages: Clone > Build > Run > Push  
+- Docker image pushed to Docker Hub: `sharonshaked/builder`  
+- Docker Hub credentials stored securely in Jenkins credentials manager  
 
-**Part V – Kubernetes & Helm**  
-- Package Flask app as Helm chart  
-- Deploy to Kubernetes with yaml  
+**Section 5.1 | Azure DevOps** — Excluded per instructor  
 
-**Final Goal**  
-Complete automated DevOps workflow that:  
-- Provisions infrastructure with Terraform  
-- Containerizes apps using Docker  
-- Automates CI/CD with Jenkins and Azure DevOps  
-- Deploys via Kubernetes and Helm  
+## Future Additions
 
-_**This project will evolve into a full cloud-native delivery pipeline.**_
+**Kubernetes & Helm**  
+- Deploy containerized app to Kubernetes cluster  
+- Package as Helm chart for repeatable deployments  
 
 ---
 
