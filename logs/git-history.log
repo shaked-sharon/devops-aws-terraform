@@ -1,0 +1,71 @@
+* e5a968b update terraform key path
+* fb6a4aa add Jenkinsfile for Jenkins pipeline
+* 396bd80 Title Change on README
+| * 9f3a1d4 Update terraform.tfvars
+| * 08b5809 Update README.md
+| * 00b811f Update README.md
+| * 858aeae Update README.md
+| * 3cb8686 Update README.md
+| * 5dcce46 Update README.md
+| * 0a9837d Update README.md
+| * b896448 Update README.md
+| * f68571e Update README.md
+| * ffee496 final readme restructure
+| * 81f43b3 Readme file restructuring
+| * ea97f09 Update README.md
+| | * 0c4aea6 Readme file restructuring
+| |/  
+| * 9eb8d0e Last min. README consistent cleanup
+| * 9b0d944 Update README.md
+| * 40946c1 Update README.md
+| * 1430793 Update README.md
+| * 414709c Update README.md
+| * 175546a Change to README Title
+| *   7dd7e63 Merge pull request #3 from shaked-sharon/dev
+| |\  
+| |/  
+|/|   
+* | 35b1060 Changes to ReadMe
+* | 1d4cfbc add python placeholder &  README for python placeholder explanation
+| *   e491bbd Merge pull request #2 from shaked-sharon/dev
+| |\  
+| |/  
+|/|   
+* |   889bcf8 Merge pull request #1 from shaked-sharon/feature/tf-setup
+|\ \  
+| |/  
+|/|   
+| | * 4e12b53 commit latest session_log.txt before branch switch
+| | * 0089939 updated latest merge & log entries
+| | * 260021e save local changes before switching branches
+| |/  
+| * 50f9d04 set home_cidr > IPv4/32 - 104.28.60.68/32
+| * 1f3c011 changed  data sources to data.tf & left resources in main.tf
+| * 6bbf63f added  main.tf (AMI/VPC/subnets/SG/EC2) & outputs.tf
+| * 1432ccd remove old terraform/aws directory to use  clean structure for new part I project
+| * 1b6ba4a add simple logger script and session log file
+|/  
+* 57974d2 minor adjustment to readme file
+* d8f91df docs(ec2): add module docs
+* 2090c38 docs(security_group): add module docs
+* b826fef Project setup and Terraform modules
+* 5a70fda Tested -- Final Commit for Submission
+* 2206ef9 new folders & files added
+* 2e7530e Final Cleanup for Submission
+*   89ff595 Merge remote-tracking branch 'refs/remotes/origin/main'
+|\  
+| * 5571242 Update README.md
+| * 01509f5 Update README.md
+| * 10004f6 Update README.md
+| * 197b6bd Update README.md
+* | dd044cb Changes to secutity terraform -- public ip
+* | b6849ad Update .gitignore to keep logs
+* | 4aab44b remove terraform state/lock from repo; rely on .gitignore
+|/  
+* c045567 Final Changes, cleanup
+* 0bf78e0 verify e2e test - local & AWS execute correctly--cleanup
+* 057fa8e Deleted logger file from previous project requirements
+* be24b88 Clean-up of files and change in code from previous project to reflect actual VM (not simulated).
+* 9e4bfd8 Work in progress: EC2 and logging tests
+* a7c4d93 Replace README with AWS module skeleton
+* a5b9e42 Start AWS module: add AWS/terraform, AWS/python, and .gitignore
