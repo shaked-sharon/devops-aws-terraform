@@ -9,9 +9,9 @@ All Terraform state remains _local_ in **terraform/** folder
 **Instance type:** `t3.medium`  
 **Default tags:** `env=devops`, `owner=Sharon`
 
-> **SECURITY NOTE:** Port **22** (SSH) - Currently open only to personal/home IPv4/32  
+> **SECURITY NOTE:** Port **22** (SSH) - Open to `0.0.0.0/0` — home IP is dynamic (personal hotspot), so locking to /32 was not feasible for this project. **For testing/student project use ONLY!!** _Never_ use this in prod!!  
 > **Port 5001**: Open to `0.0.0.0/0` **NOTE:** For testing/student project use **ONLY!!** _Never_ use this in prod!!  
-> **Port 8080**: Jenkins UI — open to `0.0.0.0/0` **NOTE:** For testing/student project use **ONLY!!** _Never_ use this in prod!!
+> **Port 8080**: Jenkins UI — opened manually in AWS console (not via Terraform) to allow Jenkins access when iCloud Private Relay blocked the connection. **For testing/student project use ONLY!!** _Never_ use this in prod!!
 
 ---
 
@@ -234,6 +234,8 @@ This project demonstrates:
 - Pipeline stages: Clone > Build > Run > Push  
 - Docker image pushed to Docker Hub: `sharonshaked/builder`  
 - Docker Hub credentials stored securely in Jenkins credentials manager  
+
+**Section 4 | Azure DevOps Pipeline** — Excluded per instructor  
 
 **Section 5.1 | Azure DevOps** — Excluded per instructor  
 
