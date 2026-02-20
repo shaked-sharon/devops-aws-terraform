@@ -235,7 +235,7 @@ This project demonstrates:
 - Docker image pushed to Docker Hub: `sharonshaked/builder`  
 - Docker Hub credentials stored securely in Jenkins credentials manager  
 
-**Section 4 | Azure DevOps Pipeline** — Excluded per instructor  
+**Section 4 | Debugging & Bug Fix** — Implemented in simplified form: `builder_client.py` prints app name and port as a functional stand-in for the full Flask AWS monitoring app  
 
 **Section 5.1 | Azure DevOps** — Excluded per instructor  
 
