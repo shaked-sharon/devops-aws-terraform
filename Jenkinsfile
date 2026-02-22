@@ -11,7 +11,7 @@ pipeline {
         // pull code from my github repo
         stage('Clone') {
             steps {
-                git branch: 'feature/docker', url: 'https://github.com/shaked-sharon/devops-aws-terraform.git'
+                git branch: 'main', url: 'https://github.com/shaked-sharon/devops-aws-terraform.git'
             }
         }
 
