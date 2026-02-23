@@ -19,7 +19,7 @@ All Terraform state remains _local_ in **terraform/** folder
 
 1. **Infrastructure Provisioning**
    - Creates & manages single EC2 instance using Terraform  
-   - Configures AWS Security Group rules > allow SSH (22) from home IPv4/32 & TCP (5001) from 0.0.0.0/0  
+   - Configures AWS Security Group rules > allow SSH (22) from 0.0.0.0/0 (home IP is dynamic) & TCP (5001) from 0.0.0.0/0  
    - Uses default tags: env=devops, owner=Sharon, Name=builder > Tag AWS resources  
    - Uses local Terraform state files stored > terraform folder  
 
@@ -45,7 +45,7 @@ All Terraform state remains _local_ in **terraform/** folder
 6. **Jenkins CI/CD Pipeline**
    - Jenkins runs on EC2 via Docker Compose (using instructor workshop setup)  
    - Pipeline stages: Clone > Build > Run > Push  
-   - Jenkinsfile reads from GitHub repo (`feature/docker` branch)  
+   - Jenkinsfile reads from GitHub repo (`main` branch)  
    - Docker Hub credentials stored securely in Jenkins credentials manager  
 
 ---
@@ -173,7 +173,7 @@ export AWS_DEFAULT_REGION="eu-central-1"
     - Definition: Pipeline script from SCM
     - SCM: Git
     - Repository URL: your GitHub repo URL
-    - Branch: */feature/docker
+    - Branch: */main
     - Script Path: Jenkinsfile
 16. **Run pipeline**
     - Click Build Now > verify all stages pass (Clone > Build > Run > Push)
