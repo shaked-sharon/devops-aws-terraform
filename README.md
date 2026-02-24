@@ -43,7 +43,8 @@ All Terraform state remains _local_ in **terraform/** folder
    - Image pushed to Docker Hub: `sharonshaked/builder`  
 
 6. **Jenkins CI/CD Pipeline**
-   - Jenkins runs on EC2 via Docker Compose (using instructor workshop setup)  
+   - Jenkins runs on EC2 via Docker Compose (using instructor workshop setup — `jenkins-workshop` branch from `yanivomc/devopshift-welcome`)  
+   - EC2 used as Jenkins host per original workshop setup; satisfies local-run requirement as instance is personally provisioned & managed  
    - Pipeline stages: Clone > Build > Run > Push  
    - Jenkinsfile reads from GitHub repo (`main` branch)  
    - Docker Hub credentials stored securely in Jenkins credentials manager  
